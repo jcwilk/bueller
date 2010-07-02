@@ -81,7 +81,7 @@ When /^I generate a (.*)project named '((?:\w|-|_)+)' that is '([^']*)' and desc
                 @name].compact
 
   @stdout = OutputCatcher.catch_out do
-    Jeweler::Generator::Application.run! *arguments
+    Bueller::Generator::Application.run! *arguments
   end
 
   @repo = Git.open(File.join(@working_dir, @name))

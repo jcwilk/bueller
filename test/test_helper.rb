@@ -24,12 +24,12 @@ require 'git'
 require 'time'
 
 $LOAD_PATH.unshift(File.dirname(__FILE__) + '/../lib')
-require 'jeweler'
+require 'bueller'
 
 $LOAD_PATH.unshift(File.dirname(__FILE__))
-require 'shoulda_macros/jeweler_macros'
+require 'shoulda_macros/bueller_macros'
 
-TMP_DIR = '/tmp/jeweler_test'
+TMP_DIR = '/tmp/bueller_test'
 FIXTURE_DIR = File.expand_path('../fixtures', __FILE__)
 
 class RubyForgeStub
@@ -65,7 +65,7 @@ class Test::Unit::TestCase
       s.name = "bar"
       s.summary = "Simple and opinionated helper for creating Rubygem projects on GitHub"
       s.email = "josh@technicalpickles.com"
-      s.homepage = "http://github.com/technicalpickles/jeweler"
+      s.homepage = "http://github.com/technicalpickles/bueller"
       s.description = "Simple and opinionated helper for creating Rubygem projects on GitHub"
       s.authors = ["Josh Nichols"]
       s.files = FileList[*files] unless files.empty?
@@ -142,17 +142,17 @@ class Test::Unit::TestCase
         @gemspec_helper = Object.new
         @rubyforge      = Object.new
 
-        @jeweler        = Object.new
+        @bueller        = Object.new
 
-        stub(@jeweler).repo           { @repo }
-        stub(@jeweler).version_helper { @version_helper }
-        stub(@jeweler).gemspec        { @gemspec }
-        stub(@jeweler).commit         { @commit }
-        stub(@jeweler).version        { @version }
-        stub(@jeweler).output         { @output }
-        stub(@jeweler).gemspec_helper { @gemspec_helper }
-        stub(@jeweler).base_dir       { @base_dir }
-        stub(@jeweler).rubyforge    { @rubyforge }
+        stub(@bueller).repo           { @repo }
+        stub(@bueller).version_helper { @version_helper }
+        stub(@bueller).gemspec        { @gemspec }
+        stub(@bueller).commit         { @commit }
+        stub(@bueller).version        { @version }
+        stub(@bueller).output         { @output }
+        stub(@bueller).gemspec_helper { @gemspec_helper }
+        stub(@bueller).base_dir       { @base_dir }
+        stub(@bueller).rubyforge    { @rubyforge }
       end
 
       context "", &block

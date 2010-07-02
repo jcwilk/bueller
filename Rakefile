@@ -10,22 +10,22 @@ end
 
 $LOAD_PATH.unshift('lib')
 
-require 'jeweler'
-Jeweler::Tasks.new do |gem|
-  gem.name = "jeweler"
+require 'bueller'
+Bueller::Tasks.new do |gem|
+  gem.name = "bueller"
   gem.summary = "Opinionated tool for creating and managing RubyGem projects"
   gem.email = "josh@technicalpickles.com"
-  gem.homepage = "http://github.com/technicalpickles/jeweler"
+  gem.homepage = "http://github.com/technicalpickles/bueller"
   gem.description = "Simple and opinionated helper for creating Rubygem projects on GitHub"
   gem.authors = ["Josh Nichols"]
-  gem.files.include %w(lib/jeweler/templates/.document lib/jeweler/templates/.gitignore)
+  gem.files.include %w(lib/bueller/templates/.document lib/bueller/templates/.gitignore)
 
   # dependencies defined in Gemfile
 end
 
-Jeweler::GemcutterTasks.new
+Bueller::GemcutterTasks.new
 
-Jeweler::RubyforgeTasks.new do |t|
+Bueller::RubyforgeTasks.new do |t|
   t.doc_task = :yardoc
 end
 
@@ -41,7 +41,7 @@ end
 
 namespace :test do
   task :gemspec_dup do
-    gemspec = Rake.application.jeweler.gemspec
+    gemspec = Rake.application.bueller.gemspec
     dupped_gemspec = gemspec.dup
     cloned_gemspec = gemspec.clone
     #require 'ruby-debug';breakpoint
@@ -52,7 +52,7 @@ end
 
 require 'yard'
 YARD::Rake::YardocTask.new(:yardoc) do |t|
-  t.files   = FileList['lib/**/*.rb'].exclude('lib/jeweler/templates/**/*.rb')
+  t.files   = FileList['lib/**/*.rb'].exclude('lib/bueller/templates/**/*.rb')
 end
 
 require 'rcov/rcovtask'

@@ -13,11 +13,11 @@ Feature: generated Rakefile
     Then 'Rakefile' requires 'rubygems'
     And 'Rakefile' requires 'rake'
     And 'Rakefile' requires 'rake/rdoctask'
-    And Rakefile has 'the-perfect-gem' for the Jeweler::Tasks name
-    And Rakefile has 'bar@example.com' for the Jeweler::Tasks email
-    And Rakefile has 'zomg, so good' for the Jeweler::Tasks summary
-    And Rakefile has 'Descriptive' for the Jeweler::Tasks description
-    And Rakefile has 'http://github.com/technicalpickles/the-perfect-gem' for the Jeweler::Tasks homepage
+    And Rakefile has 'the-perfect-gem' for the Bueller::Tasks name
+    And Rakefile has 'bar@example.com' for the Bueller::Tasks email
+    And Rakefile has 'zomg, so good' for the Bueller::Tasks summary
+    And Rakefile has 'Descriptive' for the Bueller::Tasks description
+    And Rakefile has 'http://github.com/technicalpickles/the-perfect-gem' for the Bueller::Tasks homepage
 
   Scenario: bacon
     When I generate a bacon project named 'the-perfect-gem' that is 'zomg, so good'

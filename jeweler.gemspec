@@ -18,7 +18,6 @@ Gem::Specification.new do |s|
     "ChangeLog.markdown",
     "LICENSE",
     "README.markdown",
-    "TODO"
   ]
   s.files = [
     ".gitignore",
@@ -134,7 +133,6 @@ Gem::Specification.new do |s|
     "test/fixtures/existing-project-with-version-plaintext/LICENSE",
     "test/fixtures/existing-project-with-version-plaintext/README.rdoc",
     "test/fixtures/existing-project-with-version-plaintext/Rakefile",
-    "test/fixtures/existing-project-with-version-plaintext/VERSION",
     "test/fixtures/existing-project-with-version-plaintext/existing-project-with-version.gemspec",
     "test/fixtures/existing-project-with-version-plaintext/lib/existing_project_with_version.rb",
     "test/fixtures/existing-project-with-version-plaintext/test/existing_project_with_version_test.rb",
@@ -174,8 +172,7 @@ Gem::Specification.new do |s|
     "test/jeweler/test_version_helper.rb",
     "test/shoulda_macros/jeweler_macros.rb",
     "test/test_helper.rb",
-    "test/test_jeweler.rb",
-    "tmp/existing-project-with-version-plaintext/VERSION"
+    "test/test_jeweler.rb"
   ]
   s.homepage = %q{http://github.com/technicalpickles/jeweler}
   s.rdoc_options = ["--charset=UTF-8"]
