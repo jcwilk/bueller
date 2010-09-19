@@ -1,6 +1,6 @@
-require 'test_helper'
+require 'spec_helper'
 
-class TestSpecification < Test::Unit::TestCase
+describe Bueller::Specification
   let(:project) { 
   def setup
     @project = create_construct
@@ -251,20 +251,5 @@ class TestSpecification < Test::Unit::TestCase
       @gemspec  = build_bueller_gemspec
       @gemspec.set_bueller_defaults(@project, @project)
     end
-
-    should "include Gemfile's runtime group in gemspec's runtime dependencies"# do
-    #  assert_equal 1, @gemspec.runtime_dependencies.size
-    #  dependency = @gemspec.runtime_dependencies.first
-    #  assert_equal "git", dependency.name
-    #  assert_equal ">= 1.2.5", dependency.version_requirements.to_s
-    #end
-
-    should "include Gemfile's development group in gemspec's development dependencies" #do
-    #  assert_equal 1, @gemspec.development_dependencies.size
-    #  dependency = @gemspec.development_dependencies.first
-    #  assert_equal "shoulda", dependency.name
-    #  assert_equal ">= 0", dependency.version_requirements.to_s
-    #end
-
   end
 end
