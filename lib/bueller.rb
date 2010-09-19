@@ -20,14 +20,12 @@ class Bueller
   autoload :Tasks,          'bueller/tasks'
   autoload :GemcutterTasks, 'bueller/gemcutter_tasks'
   autoload :RubyforgeTasks, 'bueller/rubyforge_tasks'
-  autoload :Specification,  'bueller/specification'
 
   attr_reader :gemspec, :gemspec_helper, :version_helper
   attr_accessor :base_dir, :output, :repo, :commit
 
   def initialize(gemspec, base_dir = '.')
     @gemspec = gemspec
-    @gemspec.extend(Specification)
     @gemspec.set_bueller_defaults(base_dir, git_base_dir)
 
     @base_dir       = base_dir
