@@ -2,7 +2,6 @@ class Bueller
   module Commands
     autoload :BuildGem, 'bueller/commands/build_gem'
     autoload :InstallGem, 'bueller/commands/install_gem'
-    autoload :CheckDependencies, 'bueller/commands/check_dependencies'
     autoload :ReleaseToGit, 'bueller/commands/release_to_git'
     autoload :ReleaseToGithub, 'bueller/commands/release_to_github'
     autoload :ReleaseToGemcutter, 'bueller/commands/release_to_gemcutter'
