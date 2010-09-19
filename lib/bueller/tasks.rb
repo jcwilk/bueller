@@ -21,45 +21,26 @@ class Bueller
   class Tasks < ::Rake::TaskLib
     attr_accessor :gemspec, :bueller
 
-    def initialize(name)
-      @gemspec = gemspec || eval(File.read(File.join(Dir.pwd, "#{name}.gemspec")))
+    def initialize
+      gemspec_file = Dir.glob(File.expand_path('*.gemspec', Dir.pwd)).first
+      @gemspec = eval(File.read(gemspec_file)) if gemspec_file
 
       Rake.application.bueller_tasks = self
       define
     end
 
     def bueller
-      if @bueller.nil?
-        @bueller = Bueller.new(gemspec)
-      end
-      @bueller
+      @bueller ||= Bueller.new(@gemspec)
     end
 
   private
 
-    def yield_gemspec_set_version?
-      yielded_gemspec = @gemspec.dup
-      yielded_gemspec.extend(Bueller::Specification)
-      yielded_gemspec.files = FileList[]
-      yielded_gemspec.test_files = FileList[]
-      yielded_gemspec.extra_rdoc_files = FileList[]
-
-      ! yielded_gemspec.version.nil?
-    end
-
     def define
-      task :version_required do
-        if bueller.expects_version_file? && !bueller.version_file_exists?
-          abort "Expected VERSION or VERSION.yml to exist. Use 'rake version:write' to create an initial one."
-        end
-      end
-
       task :gemspec_required do
         if ! File.exist?(bueller.gemspec_helper.path)
           abort "Expected #{bueller.gemspec_helper.path} to exist. See 'rake gemspec:write' to create it"
         end
       end
-      
 
       desc "Build gem"
       task :build do
@@ -71,17 +52,25 @@ class Bueller
         bueller.install_gem
       end
 
-      desc "Generate and validates gemspec"
+      desc 'Generate and validates gemspec'
       task :gemspec => ['gemspec:generate', 'gemspec:validate']
 
       namespace :gemspec do
-        desc "Validates the gemspec"
+        desc 'Validates the gemspec'
         task :validate => :gemspec_required do
           bueller.validate_gemspec
         end
 
-        desc "Generates the gemspec, using version from VERSION"
+        desc 'Generates the gemspec'
         task :generate => :version_required do
+          if File.exist?(bundler.gemspec_helper.path)
+            $stdout.puts 'You already have a gemspec. If you want to overwrite it, run `rake regenerate_gemspec`'
+          else
+            bueller.write_gemspec
+          end
+        end
+
+        task :regenerate_gemspec do
           bueller.write_gemspec
         end
       end
@@ -156,22 +145,8 @@ class Bueller
 
       desc "Check that runtime and development dependencies are installed" 
       task :check_dependencies do
-        puts "Use bundle install instead"
-        `bundle install`
-      end
-
-      namespace :check_dependencies do
-        desc "Check that runtime dependencies are installed"
-        task :runtime  do
-          puts "Use bundle install instead"
-          `bundle install`
-        end
-
-        desc"Check that development dependencies are installed"
-        task :development do
-          puts "Use bundle install instead"
-          `bundle install`
-        end
+        puts "Use bundle check instead"
+        `bundle check`
       end
 
       desc "Start IRB with all runtime dependencies loaded"
@@ -179,7 +154,6 @@ class Bueller
         puts "Use bundle console instead"
         `bundle console`
       end
-      
     end
   end
 end
