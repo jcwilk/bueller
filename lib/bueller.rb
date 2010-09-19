@@ -26,7 +26,6 @@ class Bueller
 
   def initialize(gemspec, base_dir = '.')
     @gemspec = gemspec
-    @gemspec.set_bueller_defaults(base_dir, git_base_dir)
 
     @base_dir       = base_dir
     @repo           = Git.open(git_base_dir) if in_git_repo?
