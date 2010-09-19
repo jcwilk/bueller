@@ -1,4 +1,4 @@
-Feature: generated Gemfiel
+Feature: generated Gemfile
   In order to start a new gem
   A user should be able to
   generate a Gemfile
