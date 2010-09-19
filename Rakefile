@@ -1,4 +1,3 @@
-require 'rake'
 require 'bundler'
 begin
   Bundler.setup(:runtime, :development)
@@ -11,17 +10,7 @@ end
 $LOAD_PATH.unshift('lib')
 
 require 'bueller'
-Bueller::Tasks.new do |gem|
-  gem.name = "bueller"
-  gem.summary = "Opinionated tool for creating and managing RubyGem projects"
-  gem.email = "josh@technicalpickles.com"
-  gem.homepage = "http://github.com/technicalpickles/bueller"
-  gem.description = "Simple and opinionated helper for creating Rubygem projects on GitHub"
-  gem.authors = ["Josh Nichols"]
-  gem.files.include %w(lib/bueller/templates/.document lib/bueller/templates/.gitignore)
-
-  # dependencies defined in Gemfile
-end
+Bueller::Tasks.new
 
 Bueller::GemcutterTasks.new
 
@@ -44,7 +33,6 @@ namespace :test do
     gemspec = Rake.application.bueller.gemspec
     dupped_gemspec = gemspec.dup
     cloned_gemspec = gemspec.clone
-    #require 'ruby-debug';breakpoint
     puts gemspec.to_ruby
     puts dupped_gemspec.to_ruby
   end
@@ -56,9 +44,9 @@ YARD::Rake::YardocTask.new(:yardoc) do |t|
 end
 
 require 'rcov/rcovtask'
-Rcov::RcovTask.new(:rcov => :check_dependencies) do |rcov|
-  rcov.libs << 'test'
-  rcov.pattern = 'test/**/test_*.rb'
+Rcov::RcovTask.new(:rcov) do |rcov|
+  rcov.libs << 'spec'
+  rcov.pattern = 'spec/**/*_spec.rb'
 end
 
 require 'cucumber/rake/task'
@@ -70,10 +58,3 @@ namespace :features do
     features.cucumber_opts = "features --format progress"
   end
 end
-
-if ENV["RUN_CODE_RUN"] == "true"
-  task :default => [:test, :features]
-else
-  task :default => :test
-end
-
