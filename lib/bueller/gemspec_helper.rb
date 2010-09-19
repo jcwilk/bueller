@@ -25,14 +25,7 @@ class Bueller
     end
 
     def to_ruby
-      normalize_files(:files)
-      normalize_files(:test_files)
-      normalize_files(:extra_rdoc_files)
-
-      gemspec_ruby = @spec.to_ruby
-      gemspec_ruby = prettyify_array(gemspec_ruby, :files)
-      gemspec_ruby = prettyify_array(gemspec_ruby, :test_files)
-      gemspec_ruby = prettyify_array(gemspec_ruby, :extra_rdoc_files)
+      @spec.to_ruby
     end
 
     def path
@@ -44,27 +37,8 @@ class Bueller
     def parse
       data = self.to_ruby
       parsed_gemspec = nil
-      Thread.new { parsed_gemspec = eval("$SAFE = 3\n#{data}", binding, path) }.join
+      parsed_gemspec = eval("$SAFE = 3\n#{data}", binding, path)
       parsed_gemspec
-    end
-
-    def normalize_files(array_attribute)
-      array = @spec.send(array_attribute)
-      # only keep files, no directories, and sort
-      array = array.select do |path|
-        File.file? File.join(@base_dir, path)
-      end.sort
-
-      @spec.send("#{array_attribute}=", array)
-    end
-
-    # Adds extra space when outputting an array. This helps create better version control diffs, because otherwise it is all on the same line.
-    def prettyify_array(gemspec_ruby, array_name)
-      gemspec_ruby.gsub(/s\.#{array_name.to_s} = \[.+?\]/) do |match|
-        leadin, files = match[0..-2].split("[")
-        
-        leadin + "[\n    #{files.gsub(%|", "|, %|",\n    "|)}\n  ]"
-      end
     end
 
     def gem_path
