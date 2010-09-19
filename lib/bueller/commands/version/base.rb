@@ -38,16 +38,18 @@ class Bueller
           Pathname.new(base_dir).realpath
         end
 
-
-        def self.build_for(bueller)
+        def self.run_for(bueller, major, minor, patch, build)
           command = new
           command.repo = bueller.repo
           command.version_helper = bueller.version_helper
           command.gemspec = bueller.gemspec
           command.commit = bueller.commit
           command.base_dir = bueller.base_dir
-
-          command
+          command.major = major
+          command.minor = minor
+          command.patch = patch
+          command.build = build
+          command.run
         end
       end
     end
