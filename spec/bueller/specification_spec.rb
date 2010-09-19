@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class TestSpecification < Test::Unit::TestCase
+  let(:project) { 
   def setup
     @project = create_construct
   end
