@@ -17,7 +17,7 @@ class Bueller
         end
       end
 
-      build_command_context "build for bueller" do
+      BuildCommand.context "build for bueller" do
         setup do
           @command = Bueller::Commands::InstallGem.build_for(@bueller)
         end

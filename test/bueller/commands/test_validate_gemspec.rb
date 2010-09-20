@@ -4,7 +4,7 @@ class Bueller
   module Commands
     class TestValidateGemspec < Test::Unit::TestCase
 
-      build_command_context "build context" do
+      BuildCommand.context "build context" do
         setup do
           @command = Bueller::Commands::ValidateGemspec.build_for(@bueller)
         end

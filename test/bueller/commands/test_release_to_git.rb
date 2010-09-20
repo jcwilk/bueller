@@ -70,7 +70,7 @@ class Bueller
       end
 
 
-      build_command_context "building from bueller" do
+      BuildCommand.context "building from bueller" do
         setup do
           @command = Bueller::Commands::ReleaseToGit.build_for(@bueller)
         end

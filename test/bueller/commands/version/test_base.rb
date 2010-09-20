@@ -4,7 +4,7 @@ class Bueller
   module Commands
     module Version
       class TestBase < Test::Unit::TestCase
-        build_command_context "build for bueller" do
+        BuildCommand.context "build for bueller" do
           setup do
             @command = Bueller::Commands::Version::Base.build_for(@bueller)
           end
