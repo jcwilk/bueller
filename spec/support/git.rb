@@ -10,7 +10,7 @@ module GitSupport
   def github_token; 'zomgtoken'; end
 
   def valid_config
-    { 'user.name' => git_name, 'user.email' => git_email, 'github.user' => github_user, 'github.token' => github_token }
+    { 'user.name' => name, 'user.email' => email, 'github.user' => github_user, 'github.token' => github_token }
   end
 
   def stub_config(options = {})
