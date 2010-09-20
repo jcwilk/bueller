@@ -4,8 +4,8 @@ module GitSupport
   extend self
 
   def project_name; 'the-perfect-gem'; end
-  def git_name; 'foo'; end
-  def git_email; 'bar@example.com'; end
+  def name; 'foo'; end
+  def email; 'bar@example.com'; end
   def github_user; 'technicalpickles'; end
   def github_token; 'zomgtoken'; end
 

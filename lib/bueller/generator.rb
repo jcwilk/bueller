@@ -44,13 +44,19 @@ class Bueller
 
     attr_accessor :target_dir, :user_name, :user_email, :summary, :homepage,
                   :description, :project_name, :github_username, :github_token,
-                  :repo, :should_create_remote_repo, 
+                  :repo, :create_remote_repo, 
                   :testing_framework, :documentation_framework,
-                  :should_use_cucumber, :should_setup_gemcutter,
-                  :should_setup_rubyforge, :should_use_reek, :should_use_roodi,
+                  :use_cucumber, :setup_gemcutter,
+                  :setup_rubyforge, :use_reek, :use_roodi,
                   :development_dependencies,
                   :options,
                   :git_remote
+
+    alias :create_remote_repo? :create_remote_repo
+    alias :use_cucumber? :use_cucumber
+    alias :setup_rubyforge? :setup_rubyforge
+    alias :use_reek? :use_reek
+    alias :use_roodi? :use_roodi
 
     def initialize(options = {})
       self.options = options
@@ -83,21 +89,21 @@ class Bueller
 
       self.summary                = options[:summary] || 'TODO: one-line summary of your gem'
       self.description            = options[:description] || 'TODO: longer description of your gem'
-      self.should_use_cucumber    = options[:use_cucumber]
-      self.should_use_reek        = options[:use_reek]
-      self.should_use_roodi       = options[:use_roodi]
-      self.should_setup_gemcutter = options[:gemcutter]
-      self.should_setup_rubyforge = options[:rubyforge]
+      self.use_cucumber    = options[:use_cucumber]
+      self.use_reek        = options[:use_reek]
+      self.use_roodi       = options[:use_roodi]
+      self.setup_gemcutter = options[:gemcutter]
+      self.setup_rubyforge = options[:rubyforge]
 
-      development_dependencies << ["cucumber", ">= 0"] if should_use_cucumber
+      development_dependencies << ["cucumber", ">= 0"] if use_cucumber?
 
       # TODO make bundler optional?
       development_dependencies << ["bundler", ">= 0.9.5"]
       development_dependencies << ["bueller", ">= 1.4.0"]
       development_dependencies << ["rcov", ">= 0"]
 
-      development_dependencies << ["reek", ">= 0"] if should_use_reek
-      development_dependencies << ["roodi", ">= 0"] if should_use_roodi
+      development_dependencies << ["reek", ">= 0"] if use_reek?
+      development_dependencies << ["roodi", ">= 0"] if use_roodi?
 
       self.user_name       = options[:user_name]
       self.user_email      = options[:user_email]
@@ -115,7 +121,7 @@ class Bueller
       create_files
       create_version_control
       $stdout.puts "Bueller has prepared your gem in #{target_dir}"
-      if should_create_remote_repo
+      if create_remote_repo?
         create_and_push_repo
         $stdout.puts "Bueller has pushed your repo to #{homepage}"
       end
@@ -194,7 +200,7 @@ class Bueller
 
       end
 
-      if should_use_cucumber
+      if use_cucumber?
         mkdir_in_target           features_dir
         output_template_in_target File.join(%w(features default.feature)), File.join('features', feature_filename)
 

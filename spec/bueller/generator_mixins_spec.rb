@@ -1,7 +1,7 @@
-require 'test_helper'
+require 'spec_helper'
 
-class TestGeneratorMixins < Test::Unit::TestCase
-
+# FIXME: use example groups/it_should_behave_like instead
+describe 'Bueller::Generator Mixins' do
   [Bueller::Generator::BaconMixin,
    Bueller::Generator::MicronautMixin,
    Bueller::Generator::MinitestMixin,
@@ -10,12 +10,12 @@ class TestGeneratorMixins < Test::Unit::TestCase
    Bueller::Generator::TestspecMixin,
    Bueller::Generator::TestunitMixin,
   ].each do |mixin|
-    context "#{mixin}" do
+    describe "#{mixin}" do
       %w(default_task feature_support_require feature_support_extend
          test_dir test_task test_pattern test_filename
          test_helper_filename).each do |method|
-          should "define #{method}" do
-            assert mixin.method_defined?(method)
+          it "should define #{method}" do
+            mixin.method_defined?(method).should be_true
           end
        end
     end
