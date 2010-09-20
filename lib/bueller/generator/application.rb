@@ -25,8 +25,7 @@ class Bueller
           end
 
           begin
-            generator = Bueller::Generator.new(options)
-            generator.run
+            Bueller::Generator.run(options)
             return 0
           rescue Bueller::NoGitUserName
             $stderr.puts %Q{No user.name found in ~/.gitconfig. Please tell git about yourself (see http://help.github.com/git-email-settings/ for details). For example: git config --global user.name "mad voo"}

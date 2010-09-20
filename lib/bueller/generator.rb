@@ -58,6 +58,11 @@ class Bueller
     alias :use_reek? :use_reek
     alias :use_roodi? :use_roodi
 
+    def self.run(options = {})
+      generator = self.new(options)
+      generator.run
+    end
+
     def initialize(options = {})
       self.options = options
 
