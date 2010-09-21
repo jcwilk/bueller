@@ -1,4 +1,4 @@
-# Bueller: Craft the perfect RubyGem
+# Bueller: Craft the absolute perfect RubyGem
 
 Bueller provides two things:
 
@@ -8,7 +8,6 @@ Bueller provides two things:
 ## Quick Links
 
  * [Wiki](http://wiki.github.com/dkastner/bueller)
- * [Mailing List](http://groups.google.com/group/bueller-rb)
  * [Bugs](http://github.com/dkastner/bueller/issues)
 
 ## Installing
@@ -18,23 +17,14 @@ Bueller provides two things:
 
 ## Using in an existing project
 
-It's easy to get up and running. Update your Rakefile to instantiate a `Bueller::Tasks`, and give it a block with details about your project.
+Since bueller uses your existing gemspec, simply add the bueller tasks to your Rakefile:
 
     begin
       require 'bueller'
-      Bueller::Tasks.new do |gemspec|
-        gemspec.name = "the-perfect-gem"
-        gemspec.summary = "One line summary of your gem"
-        gemspec.description = "A different and possibly longer explanation of"
-        gemspec.email = "josh@technicalpickles.com"
-        gemspec.homepage = "http://github.com/technicalpickles/the-perfect-gem"
-        gemspec.authors = ["Josh Nichols"]
-      end
+      Bueller::Tasks.new
     rescue LoadError
       puts "Bueller not available. Install it with: gem install bueller"
     end
-
-The yield object here, `gemspec`, is a `Gem::Specification` object. See the [Customizing your project's gem specification](http://wiki.github.com/technicalpickles/bueller/customizing-your-projects-gem-specification) for more details about how you can customize your gemspec.
 
 ## Using to start a new project
 
@@ -49,25 +39,25 @@ It supports a number of options. Here's a taste, but `bueller --help` will give 
  * --create-repo: in addition to preparing a project, it create an repo up on GitHub and enable RubyGem generation
  * --testunit: generate test_helper.rb and test ready for test/unit
  * --minitest: generate test_helper.rb and test ready for minitest
- * --shoulda: generate test_helper.rb and test ready for shoulda (this is the default)
- * --rspec: generate spec_helper.rb and spec ready for rspec
+ * --shoulda: generate test_helper.rb and test ready for shoulda
+ * --rspec: generate spec_helper.rb and spec ready for rspec (this is the default)
  * --bacon: generate spec_helper.rb and spec ready for bacon
  * --gemcutter: setup releasing to gemcutter
  * --rubyforge: setup releasing to rubyforge
 
 ### Default options
 
-Bueller respects the JEWELER_OPTS environment variable. Want to always use RSpec, and you're using bash? Add this to ~/.bashrc:
+Bueller respects the BUELLER_OPTS environment variable. Want to always use Test::Unit, and you're using bash? Add this to ~/.bashrc:
 
-    export JEWELER_OPTS="--rspec"
+    export BUELLER_OPTS="--testunit"
 
 ## Gemspec
 
-Bueller handles generating a gemspec file for your project:
+Bueller leaves the task of defining a clean gemspec to you. However, it does offer a method to bump version numbers via rake tasks.
 
-    rake gemspec
+    rake version:bump:minor
 
-This creates a gemspec for your project. It's based on the info you give `Bueller::Tasks`, the current version of your project, and some defaults that Bueller provides.
+When starting from scratch, bueller will create a skeleton gemspec for you.
 
 ## Gem
 
@@ -99,10 +89,8 @@ Initially, your project starts out at 0.0.0. Bueller provides Rake tasks for bum
 
 You can also programmatically set the version if you wish. Typically, you use this to have a module with the version info so clients can access it. The only downside here is you no longer can use the version:bump tasks.
 
-    require File.dirname(__FILE__) + "/lib/my_project/version.rb"
-
-    Bueller::Tasks.new do |gemspec|
-       gemspec.version = MyProject::VERSION
+    Gem::Specification.new do |s|
+       s.version = MyProject::VERSION
        # more stuff
     end
 
@@ -113,7 +101,6 @@ Major, minor, and patch versions have a distant cousin: build. You can use this 
 You have two ways of doing this:
 
  * Use `version:write` and specify `BUILD=pre1`
- * Edit VERSION by hand to add a fourth version segment
 
 Bueller does not provide a `version:bump:build` because the build version can really be anything, so it's hard to know what should be the next bump.
 
@@ -125,7 +112,6 @@ Bueller handles releasing your gem into the wild:
 
 It does the following for you:
 
- * Regenerate the gemspec to the latest version of your project
  * git pushes to origin/master branch
  * git tags the version and pushes to the origin remote
 
@@ -145,9 +131,7 @@ A Rakefile setup for gemcutter would include something like this:
 
     begin
       require 'bueller'
-      Bueller::Tasks.new do |gemspec|
-        # omitted for brevity
-      end
+      Bueller::Tasks.new
       Bueller::GemcutterTasks.new
     rescue LoadError
       puts "Bueller (or a dependency) not available. Install it with: gem install bueller"
@@ -174,20 +158,11 @@ Bueller can also handle releasing to [RubyForge](http://rubyforge.org). There ar
  * Add Bueller::RubyforgeTasks to bring in the appropriate tasks.
  * Note, using `bueller --rubyforge` when generating the project does this for you automatically.
 
-A Rakefile setup for rubyforge would include something like this:
+A gemspec setup for rubyforge would include something like this:
 
-    begin
-      require 'bueller'
-      Bueller::Tasks.new do |gemspec|
-        # ommitted for brevity
-        gemspec.rubyforge_project = 'the-perfect-gem' # This line would be new
-      end
-
-      Bueller::RubyforgeTasks.new do |rubyforge|
-        rubyforge.doc_task = "rdoc"
-      end
-    rescue LoadError
-      puts "Bueller, or a dependency, not available. Install it with: gem install bueller"
+    Gem::Specification.new do |s|
+      # ommitted for brevity
+      gemspec.rubyforge_project = 'the-perfect-gem' # This line would be new
     end
 
 Now you must initially create a 'package' for your gem in your RubyForge 'project':
@@ -204,4 +179,4 @@ If you need to release it without the rest of the release task, you can run:
 
  * Hack, commit, hack, commit, etc, etc
  * `rake version:bump:patch release` to do the actual version bump and release
- * Have a delicious beverage (I suggest scotch)
+ * Have a delicious beverage (I suggest port)
