@@ -94,10 +94,10 @@ describe Bueller do
   end
 
   describe '#bump_major_version' do
-    it 'should build and run release to git command when running release_to_git' do
-      Bueller::Commands::ReleaseToGit.should_receive(:run_for).with(bueller)
+    it 'should build and tag the release' do
+      Bueller::Commands::GitTagRelease.should_receive(:run_for).with(bueller)
 
-      bueller.release_to_git
+      bueller.git_tag_release
     end
   end
 end

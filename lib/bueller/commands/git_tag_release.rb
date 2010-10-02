@@ -1,6 +1,6 @@
 class Bueller
   module Commands
-    class ReleaseToGit
+    class GitTagRelease
       def self.run_for(bueller)
         command = new bueller
         command.run

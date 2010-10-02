@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe Bueller::Commands::ReleaseToGit do
+describe Bueller::Commands::GitTagRelease do
   let(:bueller) { Bueller.new Gemspec.build }
-  let(:command) { Bueller::Commands::ReleaseToGit.new bueller, :output => StringIO.new }
+  let(:command) { Bueller::Commands::GitTagRelease.new bueller, :output => StringIO.new }
 
   before :each do
     status = mock(Object)

@@ -114,8 +114,8 @@ class Bueller
     Bueller::Commands::ReleaseToGithub.run_for(self)
   end
 
-  def release_to_git
-    Bueller::Commands::ReleaseToGit.run_for(self)
+  def git_tag_release
+    Bueller::Commands::GitTagRelease.run_for(self)
   end
 
   def release_gem_to_gemcutter
