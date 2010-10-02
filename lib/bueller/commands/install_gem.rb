@@ -1,28 +1,35 @@
 class Bueller
   module Commands
     class InstallGem
-      attr_accessor :gemspec_helper, :output
+      def self.run_for(bueller)
+        command = new
+        command.run
+        command
+      end
 
-      def initialize
-        self.output = $stdout
+      attr_reader :bueller
+
+      def initialize(bueller)
+        @bueller = bueller
+        bueller.output = $stdout
+      end
+
+      def output
+        bueller.output
+      end
+      def gemspec_helper
+        bueller.gemspec_helper
       end
 
       def run
         command = "#{gem_command} install #{gemspec_helper.gem_path}"
         output.puts "Executing #{command.inspect}:"
 
-        sh command # TODO where does sh actually come from!? - rake, apparently
+        sh command
       end
 
       def gem_command
-        "#{Config::CONFIG['RUBY_INSTALL_NAME']} -S gem"
-      end
-
-      def self.build_for(bueller)
-        command = new
-        command.output = bueller.output
-        command.gemspec_helper = bueller.gemspec_helper
-        command
+        "bundle exec gem"
       end
     end
   end
