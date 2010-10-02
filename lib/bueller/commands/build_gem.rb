@@ -1,35 +1,52 @@
 class Bueller
   module Commands
     class BuildGem
-      attr_accessor :base_dir, :gemspec_helper, :file_utils, :version_helper
+      def self.run_for(bueller)
+        command = new bueller
+        command.run
+        command
+      end
 
-      def initialize
-        self.file_utils = FileUtils
+      attr_reader :bueller
+
+      def initialize(bueller)
+        @bueller = bueller
+      end
+
+      def base_dir
+        bueller.base_dir
+      end
+      def gemspec_helper
+        bueller.gemspec_helper
+      end
+      def version_helper
+        bueller.version_helper
       end
 
       def run
-        gemspec_helper.update_version(version_helper) unless gemspec_helper.has_version?
-
-        gemspec = gemspec_helper.parse
-
-        require 'rubygems/builder'
-        gem_file_name = Gem::Builder.new(gemspec).build
-
-        pkg_dir = File.join(base_dir, 'pkg')
-        file_utils.mkdir_p pkg_dir
-
-        gem_file_name = File.join(base_dir, gem_file_name)
-        file_utils.mv gem_file_name, pkg_dir
+        make_package_directory
+        move_gem_file
       end
 
-      def self.build_for(bueller)
-        command = new
+      def gemspec
+        gemspec_helper.update_version(version_helper) unless gemspec_helper.has_version?
+        gemspec_helper.parse
+      end
 
-        command.base_dir = bueller.base_dir
-        command.gemspec_helper = bueller.gemspec_helper
-        command.version_helper = bueller.version_helper
+      def make_package_directory
+        pkg_dir = File.join(base_dir, 'pkg')
+        FileUtils.mkdir_p pkg_dir
+      end
 
-        command
+      def build_gem
+        require 'rubygems/builder'
+        gem_file_name = Gem::Builder.new(gemspec).build
+      end
+
+      def move_gem_file
+        gem_file_name = build_gem
+        gem_file_path = File.join(base_dir, gem_file_name)
+        FileUtils.mv gem_file_path, pkg_dir
       end
     end
   end
