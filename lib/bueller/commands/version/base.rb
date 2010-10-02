@@ -4,9 +4,10 @@ class Bueller
   module Commands
     module Version
       class Base
-        def self.run_for(bueller, major, minor, patch, build)
-          command = new bueller, major, minor, patch, build
+        def self.run_for(bueller)
+          command = new bueller
           command.run
+          command
         end
 
         attr_accessor :version_helper, :gemspec
