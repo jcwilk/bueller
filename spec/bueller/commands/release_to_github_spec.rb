@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'pathname'
 
 describe Bueller::Commands::ReleaseToGithub do
   let(:bueller) { Bueller.new Gemspec.build }

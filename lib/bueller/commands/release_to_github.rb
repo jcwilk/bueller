@@ -1,5 +1,3 @@
-require 'pathname'
-
 class Bueller
   module Commands
     class ReleaseToGithub
@@ -38,17 +36,6 @@ class Bueller
       def clean_staging_area?
         status = repo.status
         status.added.empty? && status.deleted.empty? && status.changed.empty?
-      end
-
-      def working_subdir
-        return @working_subdir if @working_subdir
-        cwd = base_dir_path
-        @working_subdir = cwd.relative_path_from(Pathname.new(repo.dir.path))
-        @working_subdir
-      end
-
-      def base_dir_path
-        Pathname.new(base_dir).realpath
       end
     end
   end
