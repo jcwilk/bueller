@@ -4,52 +4,30 @@ class Bueller
   module Commands
     module Version
       class Base
+        def self.run_for(bueller, major, minor, patch, build)
+          command = new bueller, major, minor, patch, build
+          command.run
+        end
 
-        attr_accessor :repo, :version_helper, :gemspec, :commit, :base_dir
+        attr_accessor :version_helper, :gemspec
+        attr_reader :bueller
+
+        def initialize(bueller)
+          @bueller = bueller
+        end
+
+        def version_helper; bueller.version_helper; end
+        def gemspec; bueller.gemspec; end
 
         def run
           update_version
 
-          self.version_helper.write
-          self.gemspec.version = self.version_helper.to_s
-
-          commit_version if self.repo && self.commit
+          version_helper.write
+          gemspec.version = version_helper.to_s
         end
 
         def update_version
           raise "Subclasses should implement this"
-        end
-
-        def commit_version
-          if self.repo
-            self.repo.add(working_subdir.join(version_helper.path))
-            self.repo.commit("Version bump to #{self.version_helper.to_s}")
-          end
-        end
-
-        def working_subdir
-          return @working_subdir if @working_subdir
-          cwd = base_dir_path
-          @working_subdir = cwd.relative_path_from(Pathname.new(repo.dir.path))
-          @working_subdir
-        end
-
-        def base_dir_path
-          Pathname.new(base_dir).realpath
-        end
-
-        def self.run_for(bueller, major, minor, patch, build)
-          command = new
-          command.repo = bueller.repo
-          command.version_helper = bueller.version_helper
-          command.gemspec = bueller.gemspec
-          command.commit = bueller.commit
-          command.base_dir = bueller.base_dir
-          command.major = major
-          command.minor = minor
-          command.patch = patch
-          command.build = build
-          command.run
         end
       end
     end
