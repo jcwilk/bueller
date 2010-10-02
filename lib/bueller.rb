@@ -87,14 +87,14 @@ class Bueller
   # Bumps the patch version.
   #
   # 1.5.1 -> 1.5.2
-  def bump_patch_version()
+  def bump_patch_version
     Bueller::Commands::Version::BumpPatch.run_for(self)
   end
 
   # Bumps the minor version.
   #
   # 1.5.1 -> 1.6.0
-  def bump_minor_version()
+  def bump_minor_version
     Bueller::Commands::Version::BumpMinor.run_for(self)
   end
 
