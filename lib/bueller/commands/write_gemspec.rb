@@ -23,7 +23,7 @@ class Bueller
         @gemspec_helper ||= GemSpecHelper.new(self.gemspec, self.base_dir)
       end
 
-      def self.build_for(bueller)
+      def self.run_for(bueller)
         command = new
 
         command.base_dir = bueller.base_dir
