@@ -63,7 +63,7 @@ describe Bueller::Commands::WriteGemspec do
     before :each do
       @gemspec = Gem::Specification.new {|s| s.name = 'zomg' }
       bueller = Bueller.new @gemspec
-      @command = Bueller::Commands::WriteGemspec.build_for(bueller)
+      @command = Bueller::Commands::WriteGemspec.run_for(bueller)
     end
 
     it "should return WriteGemspec" do
