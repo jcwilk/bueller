@@ -6,17 +6,17 @@ Bueller::Tasks.new do |gem|
   gem.email = "<%= user_email %>"
   gem.homepage = "<%= homepage %>"
   gem.authors = ["<%= user_name %>"]
-<% if should_setup_rubyforge %>
+<% if setup_rubyforge? %>
   gem.rubyforge_project = "<%= project_name %>"
 <% end %>
   # Have dependencies? Add them to Gemfile
 
   # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
 end
-<% if should_setup_gemcutter %>
+<% if use_cucumber? %>
 Bueller::GemcutterTasks.new
 <% end %>
-<% if should_setup_rubyforge %>
+<% if setup_rubyforge? %>
 Bueller::RubyforgeTasks.new do |rubyforge|
   rubyforge.doc_task = "<%= doc_task %>"
 end
