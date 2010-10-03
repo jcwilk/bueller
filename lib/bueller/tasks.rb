@@ -62,7 +62,7 @@ class Bueller
         end
 
         desc 'Generates the gemspec'
-        task :generate => :version_required do
+        task :generate do
           if File.exist?(bundler.gemspec_helper.path)
             $stdout.puts 'You already have a gemspec. If you want to overwrite it, run `rake regenerate_gemspec`'
           else
@@ -76,7 +76,7 @@ class Bueller
       end
 
       desc "Displays the current version"
-      task :version => :version_required do
+      task :version do
         $stdout.puts "Current version: #{bueller.version}"
       end
 
@@ -90,21 +90,21 @@ class Bueller
 
         namespace :bump do
           desc "Bump the gemspec by a major version."
-          task :major => [:version_required, :version] do
+          task :major => :version do
             bueller.bump_major_version
             bueller.write_gemspec
             $stdout.puts "Updated version: #{bueller.version}"
           end
 
           desc "Bump the gemspec by a minor version."
-          task :minor => [:version_required, :version] do
+          task :minor => :version do
             bueller.bump_minor_version
             bueller.write_gemspec
             $stdout.puts "Updated version: #{bueller.version}"
           end
 
           desc "Bump the gemspec by a patch version."
-          task :patch => [:version_required, :version] do
+          task :patch => :version do
             bueller.bump_patch_version
             bueller.write_gemspec
             $stdout.puts "Updated version: #{bueller.version}"

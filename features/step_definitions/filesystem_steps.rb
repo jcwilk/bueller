@@ -30,41 +30,29 @@ When /^I run "([^"]+)" in "([^"]+)"$/ do |command, directory|
   lib_path = File.expand_path 'lib'
   command.gsub!(/^rake /, "rake --trace -I#{lib_path} ")
 
-  assert File.directory?(full_path), "#{full_path} is not a directory"
+  File.directory?(full_path).should be_true
 
   @stdout = `cd #{full_path} && #{command}`
   @exited_cleanly = $?.exited?
 end
 
 Then /^the updated version, (.*), is displayed$/ do |version|
-  assert_match "Updated version: #{version}", @stdout
+  @stdout.should =~ /Updated version: #{version}/
 end
 
 Then /^the current version, (\d+\.\d+\.\d+), is displayed$/ do |version|
-  assert_match "Current version: #{version}", @stdout
+  @stdout.should =~ /Current version: #{version}/
 end
 
 Then /^the process should exit cleanly$/ do
-  assert @exited_cleanly, "Process did not exit cleanly: #{@stdout}"
+  @exited_cleanly.should be_true # "Process did not exit cleanly: #{@stdout}"
 end
 
 Then /^the process should not exit cleanly$/ do
-  assert !@exited_cleanly, "Process did exit cleanly: #{@stdout}"
+  @exited_cleanly.should be_true # "Process did exit cleanly: #{@stdout}"
 end
 
 Given /^I use the existing project "([^"]+)" as a template$/ do |fixture_project|
   @name = fixture_project
   FileUtils.cp_r File.join(fixture_dir, fixture_project), @working_dir
 end
-
-Given /^"VERSION\.yml" contains hash "([^"]+)"$/ do |ruby_string|
-  version_hash = YAML.load(File.read(File.join(@working_dir, @name, 'VERSION.yml')))
-  evaled_hash = eval(ruby_string)
-  assert_equal evaled_hash, version_hash
-end
-
-Given /^"VERSION" contains "([^\"]*)"$/ do |expected|
-  version = File.read(File.join(@working_dir, @name, 'VERSION')).chomp
-  assert_equal expected, version
-end
-
