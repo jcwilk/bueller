@@ -1,9 +1,10 @@
 Given 'a working directory' do
-  @working_dir = create_construct
+  @sandbox = Sandbox.new
+  @working_dir = @sandbox.path
 end
 
 After do
-  @working_dir.destroy! if @working_dir
+  @sandbox.close if @sandbox
 end
 
 Given /^I use the bueller command to generate the "([^"]+)" project in the working directory$/ do |name|
@@ -21,7 +22,7 @@ Given /^I use the bueller command to generate the "([^"]+)" project in the worki
 end
 
 Given /^"([^"]+)" does not exist$/ do |file|
-  assert ! File.exists?(File.join(@working_dir, file))
+  File.exists?(File.join(@working_dir, file)).should be_false
 end
 
 When /^I run "([^"]+)" in "([^"]+)"$/ do |command, directory|

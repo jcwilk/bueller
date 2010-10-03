@@ -1,24 +1,19 @@
 require 'bundler'
 begin
-  Bundler.setup(:runtime, :development)
+  Bundler.setup
 rescue Bundler::BundlerError => e
   $stderr.puts e.message
   $stderr.puts "Run `bundle install` to install missing gems"
   exit e.status_code
 end
 
-$LOAD_PATH.unshift(File.dirname(__FILE__) + '/../../lib')
 require 'bueller'
-require 'mocha'
 require 'output_catcher'
 require 'timecop'
 require 'activesupport'
-
-require 'test/unit/assertions'
-World(Test::Unit::Assertions)
-
-require 'construct'
-World(Construct::Helpers)
+require 'sandbox'
+require 'rspec/expectations'
+require 'cucumber/rspec/doubles'
 
 def yank_task_info(content, task)
   if content =~ /#{Regexp.escape(task)}.new(\(.*\))? do \|(.*?)\|(.*?)end/m
@@ -33,7 +28,7 @@ def yank_group_info(content, group)
 end
 
 def fixture_dir
-  File.expand_path File.join(File.dirname(__FILE__), '..', '..', 'test', 'fixtures')
+  File.expand_path File.join(File.dirname(__FILE__), '..', '..', 'spec', 'fixtures')
 end
 
 After do

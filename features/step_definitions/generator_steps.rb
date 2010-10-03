@@ -42,16 +42,16 @@ Given /^I have configured git sanely$/ do
   @github_token = 'zomgtoken'
 
   require 'git'
-  Git.stubs(:global_config).
-        returns({
+  Git.stub!(:global_config).
+        and_return({
           'user.name' => @user_name,
           'user.email' => @user_email,
           'github.user' => @github_user,
           'github.token' => @github_token})
 end
 
-Given /^I set JEWELER_OPTS env variable to "(.*)"$/ do |val|
-  ENV['JEWELER_OPTS'] = val
+Given /^I set BUELLER_OPTS env variable to "(.*)"$/ do |val|
+  ENV['BUELLER_OPTS'] = val
 end
 
 When /^I generate a (.*)project named '((?:\w|-|_)+)' that is '([^']*)'$/ do |testing_framework, name, summary|
@@ -90,8 +90,8 @@ end
 Then /^a directory named '(.*)' is created$/ do |directory|
   directory = File.join(@working_dir, directory)
 
-  assert File.exists?(directory), "#{directory} did not exist"
-  assert File.directory?(directory), "#{directory} is not a directory"
+  File.exists?(directory).should be_true # "#{directory} did not exist"
+  File.directory?(directory).should be_true # "#{directory} is not a directory"
 end
 
 Then "cucumber directories are created" do
@@ -104,21 +104,21 @@ end
 Then /^a file named '(.*)' is created$/ do |file|
   file = File.join(@working_dir, file)
 
-  assert File.exists?(file), "#{file} expected to exist, but did not"
-  assert File.file?(file), "#{file} expected to be a file, but is not"
+  File.exists?(file).should be_true #, "#{file} expected to exist, but did not"
+  File.file?(file).should be_true # "#{file} expected to be a file, but is not"
 end
 
 Then /^a file named '(.*)' is not created$/ do |file|
   file = File.join(@working_dir, file)
 
-  assert ! File.exists?(file), "#{file} expected to not exist, but did"
+  File.exists?(file).should be_false # "#{file} expected to not exist, but did"
 end
 
 Then /^a sane '.gitignore' is created$/ do
   Then "a file named 'the-perfect-gem/.gitignore' is created"
   Then "'coverage' is ignored by git"
-  Then "'*.swp' is ignored by git"
-  Then "'.DS_Store' is ignored by git"
+  Then "'\\*\\.swp' is ignored by git"
+  Then "'\\.DS_Store' is ignored by git"
   Then "'rdoc' is ignored by git"
   Then "'pkg' is ignored by git"
 end
@@ -126,7 +126,7 @@ end
 Then /^'(.*)' is ignored by git$/ do |git_ignore|
   @gitignore_content ||= File.read(File.join(@working_dir, @name, '.gitignore'))
 
-  assert_match git_ignore, @gitignore_content
+  @gitignore_content.should =~ /#{git_ignore}/
 end
 
 Then /^Rakefile has '(.*)' for the (.*) (.*)$/ do |value, task_class, field|
@@ -134,25 +134,25 @@ Then /^Rakefile has '(.*)' for the (.*) (.*)$/ do |value, task_class, field|
   block_variable, task_block = yank_task_info(@rakefile_content, task_class)
   #raise "Found in #{task_class}: #{block_variable.inspect}: #{task_block.inspect}"
 
-  assert_match /#{block_variable}\.#{field} = (%Q\{|"|')#{Regexp.escape(value)}(\}|"|')/, task_block
+  task_block.should =~ /#{block_variable}\.#{field} = (%Q\{|"|')#{Regexp.escape(value)}(\}|"|')/
 end
 
 Then /^Rakefile has '(.*)' in the Rcov::RcovTask libs$/ do |libs|
   @rakefile_content ||= File.read(File.join(@working_dir, @name, 'Rakefile'))
   block_variable, task_block = yank_task_info(@rakefile_content, 'Rcov::RcovTask')
 
-  assert_match "#{block_variable}.libs << '#{libs}'", @rakefile_content
+  @rakefile_content.should =~ /#{block_variable}\.libs << '#{libs}'/
 end
 
 
 Then /^'(.*)' contains '(.*)'$/ do |file, expected_string|
   contents = File.read(File.join(@working_dir, @name, file))
-  assert_match expected_string, contents
+  contents.should =~ /#{expected_string}/
 end
 
 Then /^'(.*)' mentions copyright belonging to me in (\d{4})$/ do |file, year|
   contents = File.read(File.join(@working_dir, @name, file))
-  assert_match "Copyright (c) #{year} #{@user_name}", contents
+  contents.should =~ /Copyright \(c\) #{year} #{@user_name}/
 end
 
 Then /^'(.*)' mentions copyright belonging to me in the current year$/ do |file|
@@ -164,7 +164,7 @@ end
 Then /^LICENSE credits '(.*)'$/ do |copyright_holder|
   Then "a file named 'the-perfect-gem/LICENSE' is created"
   @license_content ||= File.read(File.join(@working_dir, @name, 'LICENSE'))
-  assert_match copyright_holder, @license_content
+  @license_content.should =~ /#{copyright_holder}/
 end
 
 Given /^it is the year (\d+)$/ do |year|
@@ -176,44 +176,44 @@ end
 Then /^LICENSE has a copyright in the year (\d+)$/ do |year|
   Then "a file named 'the-perfect-gem/LICENSE' is created"
   @license_content ||= File.read(File.join(@working_dir, @name, 'LICENSE'))
-  assert_match year, @license_content
+  @license_content.should =~ /#{year}/
 end
 
 
 Then /^'(.*)' should define '(.*)' as a subclass of '(.*)'$/ do |file, class_name, superclass_name|
   @test_content = File.read((File.join(@working_dir, @name, file)))
 
-  assert_match "class #{class_name} < #{superclass_name}", @test_content
+  @test_content.should =~ /class #{class_name} < #{superclass_name}/
 end
 
 Then /^'(.*)' should describe '(.*)'$/ do |file, describe_name|
   @spec_content ||= File.read((File.join(@working_dir, @name, file)))
 
-  assert_match %Q{describe "#{describe_name}" do}, @spec_content
+  @spec_content.should =~ /describe "#{describe_name}" do/
 end
 
 Then /^'(.*)' should contextualize '(.*)'$/ do |file, describe_name|
   @spec_content ||= File.read((File.join(@working_dir, @name, file)))
 
-  assert_match %Q{context "#{describe_name}" do}, @spec_content
+  @spec_content.should =~ /context "#{describe_name}" do/
 end
 
 Then /^'(.*)' should have tests for '(.*)'$/ do |file, describe_name|
   @tests_content ||= File.read((File.join(@working_dir, @name, file)))
 
-  assert_match %Q{Shindo.tests("#{describe_name}") do}, @tests_content
+  @tests_content.should =~ /Shindo.tests\("#{describe_name}"\) do/
 end
 
 Then /^'(.*)' requires '(.*)'$/ do |file, lib|
   content = File.read(File.join(@working_dir, @name, file))
 
-  assert_match /require ['"]#{Regexp.escape(lib)}['"]/, content
+  content.should =~ /require ['"]#{Regexp.escape(lib)}['"]/
 end
 
 Then /^'(.*)' does not require '(.*)'$/ do |file, lib|
   content = File.read(File.join(@working_dir, @name, file))
 
-  assert_no_match /require ['"]#{Regexp.escape(lib)}['"]/, content
+  content.should_not =~ /require ['"]#{Regexp.escape(lib)}['"]/
 end
 
 Then /^Rakefile does not require '(.*)'$/ do |file|
@@ -226,24 +226,24 @@ end
 
 Then /^Rakefile does not instantiate a (.*)$/ do |task_name|
   content = File.read(File.join(@working_dir, @name, 'Rakefile'))
-  assert_no_match /#{task_name}/, content
+  content.should_not =~ /#{task_name}/
 end
 
 Then /^Rakefile instantiates a (.*)$/ do |task_name|
   content = File.read(File.join(@working_dir, @name, 'Rakefile'))
-  assert_match /#{task_name}/, content
+  content.should =~ /#{task_name}/
 end
 
 
 Then /^'(.+?)' should autorun tests$/ do |test_helper|
   content = File.read(File.join(@working_dir, @name, test_helper))
 
-  assert_match "MiniTest::Unit.autorun", content
+  content.should =~ /MiniTest::Unit.autorun/
 end
 
 Then /^cucumber world extends "(.*)"$/ do |module_to_extend|
   content = File.read(File.join(@working_dir, @name, 'features', 'support', 'env.rb'))
-  assert_match "World(#{module_to_extend})", content
+  content.should =~ /World\(#{module_to_extend}\)/
 end
 
 
@@ -254,45 +254,45 @@ end
 Then /^'features\/support\/env\.rb' sets up features to use minitest assertions$/ do
   content = File.read(File.join(@working_dir, @name, 'features', 'support', 'env.rb'))
 
-  assert_match "world.extend(Mini::Test::Assertions)", content
+  content.should == "world.extend(Mini::Test::Assertions)"
 end
 
 Then /^git repository has '(.*)' remote$/ do |remote|
   remote = @repo.remotes.first
 
-  assert_equal 'origin', remote.name
+  remote.name.should == 'origin'
 end
 
 Then /^git repository '(.*)' remote should be '(.*)'/ do |remote, remote_url|
   remote = @repo.remotes.first
 
-  assert_equal 'git@github.com:technicalpickles/the-perfect-gem.git', remote.url
+  remote.url.should == 'git@github.com:technicalpickles/the-perfect-gem.git'
 end
 
 Then /^a commit with the message '(.*)' is made$/ do |message|
-  assert_match message, @repo.log.first.message
+  @repo.log.first.message.should == message
 end
 
 Then /^'(.*)' was checked in$/ do |file|
   status = @repo.status[file]
 
-  assert_not_nil status, "wasn't able to get status for #{file}"
-  assert ! status.untracked, "#{file} was untracked"
-  assert_nil status.type, "#{file} had a type. it should have been nil"
+  status.should_not be_nil # "wasn't able to get status for #{file}"
+  status.untracked.should be_false # "#{file} was untracked"
+  status.type.should be_nil # "#{file} had a type. it should have been nil"
 end
 
 Then /^no files are (\w+)$/ do |type|
-  assert_equal 0, @repo.status.send(type).size
+  @repo.status.send(type).size.should == 0
 end
 
 Then /^Rakefile has "(.*)" as the default task$/ do |task|
   @rakefile_content ||= File.read(File.join(@working_dir, @name, 'Rakefile'))
-  assert_match "task :default => :#{task}", @rakefile_content
+  @rakefile_content.should =~ /task :default => :#{task}/
 end
 
 
 After do
-  ENV['JEWELER_OPTS'] = nil
+  ENV['BUELLER_OPTS'] = nil
 end
 
 Then /^'Gemfile' has a (\w+) dependency on '(.*)'$/ do |group, name|
@@ -300,5 +300,5 @@ Then /^'Gemfile' has a (\w+) dependency on '(.*)'$/ do |group, name|
 
   group_block = yank_group_info(@gemfile_content, group)
 
-  assert_match name, group_block
+  group_block.should =~ /#{name}/
 end
