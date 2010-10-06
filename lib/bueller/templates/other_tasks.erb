@@ -45,12 +45,12 @@ Rcov::RcovTask.new do |<%= test_task %>|
 end
 <% end %>
 
-<% if should_use_cucumber %>
+<% if use_cucumber? %>
 require 'cucumber/rake/task'
 Cucumber::Rake::Task.new(:features)
 <% end %>
 
-<% if should_use_reek %>
+<% if use_reek? %>
 require 'reek/adapters/rake_task'
 Reek::RakeTask.new do |t|
   t.fail_on_error = true
@@ -59,7 +59,7 @@ Reek::RakeTask.new do |t|
 end
 <% end %>
 
-<% if should_use_roodi %>
+<% if use_roodi? %>
 require 'roodi'
 require 'roodi_task'
 RoodiTask.new do |t|

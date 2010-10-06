@@ -1,18 +1,5 @@
 require 'bueller'
-Bueller::Tasks.new do |gem|
-  gem.name = "<%= project_name %>"
-  gem.summary = %Q{<%= summary %>}
-  gem.description = %Q{<%= description %>}
-  gem.email = "<%= user_email %>"
-  gem.homepage = "<%= homepage %>"
-  gem.authors = ["<%= user_name %>"]
-<% if setup_rubyforge? %>
-  gem.rubyforge_project = "<%= project_name %>"
-<% end %>
-  # Have dependencies? Add them to Gemfile
-
-  # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
-end
+Bueller::Tasks.new
 <% if use_cucumber? %>
 Bueller::GemcutterTasks.new
 <% end %>

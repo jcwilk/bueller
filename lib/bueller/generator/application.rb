@@ -3,8 +3,8 @@ class Bueller
     class Application
       class << self
         def run!(*arguments)
-          env_opts = if ENV['JEWELER_OPTS']
-            Bueller::Generator::Options.new(ENV['JEWELER_OPTS'].split(' '))
+          env_opts = if ENV['BUELLER_OPTS']
+            Bueller::Generator::Options.new(ENV['BUELLER_OPTS'].split(' '))
           end
           options = Bueller::Generator::Options.new(arguments)
           options = options.merge(env_opts) if env_opts

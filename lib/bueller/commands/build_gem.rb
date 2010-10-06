@@ -33,8 +33,11 @@ class Bueller
         gemspec_helper.parse
       end
 
+      def pkg_dir
+        @pkg_dir ||= File.join(base_dir, 'pkg')
+      end
+
       def make_package_directory
-        pkg_dir = File.join(base_dir, 'pkg')
         FileUtils.mkdir_p pkg_dir
       end
 

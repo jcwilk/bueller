@@ -29,10 +29,10 @@ class Bueller
 
     @base_dir       = base_dir
     @repo           = Git.open(git_base_dir) if in_git_repo?
-    @version_helper = Bueller::VersionHelper.new gemspec
+    @gemspec_helper = GemSpecHelper.new(gemspec, base_dir)
+    @version_helper = Bueller::VersionHelper.new @gemspec_helper
     @output         = $stdout
     @commit         = true
-    @gemspec_helper = GemSpecHelper.new(gemspec, base_dir)
   end
 
   # Major version, as defined by the gemspec's Version module.
@@ -66,12 +66,7 @@ class Bueller
   # Validates the project's gemspec from disk in an environment similar to how 
   # GitHub would build from it. See http://gist.github.com/16215
   def validate_gemspec
-    Bueller::Commands::ValidateGemspec.run_for(self)
-  end
-
-  # is the project's gemspec from disk valid?
-  def valid_gemspec?
-    gemspec_helper.valid?
+    gemspec.validate
   end
 
   # Build a gem using the project's latest Gem::Specification
@@ -107,7 +102,12 @@ class Bueller
 
   # Bumps the version, to the specific major/minor/patch version, writing out the appropriate version.rb, and then reloads it.
   def write_version(major, minor, patch, build, options = {})
-    command = Bueller::Commands::Version::Write.run_for(self, major, minor, patch, build)
+    command = Bueller::Commands::Version::Write.new self
+    command.major = major
+    command.minor = minor
+    command.patch = patch
+    command.build = build
+    command.run
   end
 
   def release_gem_to_github

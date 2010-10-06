@@ -10,7 +10,7 @@ end
 require 'bueller'
 require 'output_catcher'
 require 'timecop'
-require 'activesupport'
+require 'active_support'
 require 'sandbox'
 require 'rspec/expectations'
 require 'cucumber/rspec/doubles'

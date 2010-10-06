@@ -1,6 +1,6 @@
 Feature: Getting options from environment variable
   In order to avoid having to type --rspec over and over
-  A user will need to set up a JEWELER_OPTS environment variable
+  A user will need to set up a BUELLER_OPTS environment variable
 
   Scenario: Environment variable set
     Given a working directory

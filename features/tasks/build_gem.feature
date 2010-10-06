@@ -1,5 +1,6 @@
 Feature: building gems
 
+  @wip
   Scenario: default
     Given a working directory
     And I use the existing project "existing-project" as a template

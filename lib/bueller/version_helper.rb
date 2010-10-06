@@ -2,11 +2,12 @@ require 'yaml'
 
 class Bueller
   class VersionHelper
-    attr_accessor :gemspec
+    attr_accessor :gemspec, :gemspec_path
     attr_reader :major, :minor, :patch, :build
 
-    def initialize(gemspec)
-      self.gemspec = gemspec
+    def initialize(gemspec_helper)
+      self.gemspec = gemspec_helper.spec
+      self.gemspec_path = gemspec_helper.path
       parse_gemspec
     end
 
@@ -17,7 +18,6 @@ class Bueller
     end
 
     def parse_gemspec
-      self.gemspec ||= eval(File.read(gemspec_path))
       # http://rubular.com/regexes/10467 -> 3.5.4.a1
       # http://rubular.com/regexes/10468 -> 3.5.4
       if gemspec.version.to_s =~ /^(\d+)\.(\d+)\.(\d+)(?:\.(.*?))?$/

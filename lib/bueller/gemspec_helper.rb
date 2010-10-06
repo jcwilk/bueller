@@ -25,7 +25,7 @@ class Bueller
     end
 
     def to_ruby
-      @spec.to_ruby
+      spec.to_ruby
     end
 
     def path
@@ -42,7 +42,7 @@ class Bueller
     end
 
     def gem_path
-      File.join(@base_dir, 'pkg', parse.file_name)
+      File.join(@base_dir, 'pkg', spec.file_name)
     end
 
     def update_version(version)

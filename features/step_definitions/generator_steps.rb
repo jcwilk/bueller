@@ -295,10 +295,7 @@ After do
   ENV['BUELLER_OPTS'] = nil
 end
 
-Then /^'Gemfile' has a (\w+) dependency on '(.*)'$/ do |group, name|
+Then /^'Gemfile' depends on the gemspec$/ do
   @gemfile_content ||= File.read(File.join(@working_dir, @name, 'Gemfile'))
-
-  group_block = yank_group_info(@gemfile_content, group)
-
-  group_block.should =~ /#{name}/
+  @gemfile_content.should =~ /gemspec/
 end
