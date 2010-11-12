@@ -37,7 +37,7 @@ class Bueller
     def parse
       data = self.to_ruby
       parsed_gemspec = nil
-      parsed_gemspec = eval("$SAFE = 3\n#{data}", binding, path)
+      parsed_gemspec = eval(data, binding, path)
       parsed_gemspec
     end
 
