@@ -2,19 +2,12 @@ require 'yaml'
 
 class Bueller
   class VersionHelper
-    attr_accessor :gemspec, :gemspec_path
+    attr_accessor :gemspec
     attr_reader :major, :minor, :patch, :build
 
     def initialize(gemspec_helper)
       self.gemspec = gemspec_helper.spec
-      self.gemspec_path = gemspec_helper.path
       parse_gemspec
-    end
-
-    def write
-      File.open(gemspec_path, 'w') do |file|
-        file.write to_s
-      end
     end
 
     def parse_gemspec
