@@ -4,7 +4,8 @@ describe Bueller::VersionHelper do
 
   VERSION_TMP_DIR = File.dirname(__FILE__) + '/version_tmp'
 
-  let(:helper) { Bueller::VersionHelper.new gemspec }
+  let(:gemspec_helper) { Bueller::GemSpecHelper.new gemspec }
+  let(:helper) { Bueller::VersionHelper.new gemspec_helper }
 
   describe "full version" do
     let(:gemspec) do
