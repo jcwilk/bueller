@@ -33,7 +33,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency('mhennemeyer-output_catcher', '>= 0')
   s.add_development_dependency('rcov', '>= 0')
   s.add_development_dependency('redgreen', '>= 0')
-  s.add_development_dependency('rspec', '~> 2.0.0.beta.20')
+  s.add_development_dependency('rspec', '~> 2.0.0')
   s.add_development_dependency('sandbox')
   s.add_development_dependency('test-construct', '>= 0')
   s.add_development_dependency('timecop', '>= 0')
