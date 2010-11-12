@@ -28,10 +28,6 @@ class Bueller
       end
     end
 
-    def refresh
-      parse_gemspec
-    end
-
     def bump_major
       @major += 1
       @minor = 0

@@ -42,8 +42,7 @@ class Bueller
       end
 
       def build_gem
-        require 'rubygems/builder'
-        gem_file_name = Gem::Builder.new(gemspec).build
+        Gem::Builder.new(gemspec).build
       end
 
       def move_gem_file

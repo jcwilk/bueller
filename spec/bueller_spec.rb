@@ -37,14 +37,6 @@ describe Bueller do
     end
   end
 
-  describe '#validate_gemspec' do
-    it 'should build and run validate gemspec command when validating gemspec' do
-      Bueller::Commands::ValidateGemspec.should_receive(:run_for).with(bueller)
-
-      bueller.validate_gemspec
-    end
-  end
-
   describe '#build_gem' do
     it 'should build and run build gem command when building gem' do
       Bueller::Commands::BuildGem.should_receive(:run_for).with(bueller)
@@ -79,7 +71,7 @@ describe Bueller do
 
   describe '#bump_major_version' do
     it 'should build and run write version command when writing version' do
-      Bueller::Commands::Version::Write.should_receive(:run_for).with(bueller, 1, 5, 2, 'a1')
+      Bueller::Commands::Version::Write.should_receive(:run_for).with(bueller)
 
       bueller.write_version(1, 5, 2, 'a1')
     end
