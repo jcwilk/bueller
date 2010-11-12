@@ -1,19 +1,20 @@
 class Bueller
   module Commands
     class WriteGemspec
-      attr_accessor :base_dir, :gemspec, :version, :output, :gemspec_helper, :version_helper
+      attr_accessor :base_dir, :gemspec, :output, :gemspec_helper, :version_helper
 
-      def initialize
+      def initialize(bueller)
         self.output = $stdout
+        self.base_dir = bueller.base_dir
+        self.gemspec = bueller.gemspec
+        self.output = bueller.output
+        self.gemspec_helper = bueller.gemspec_helper
+        self.version_helper = bueller.version_helper
       end
 
       def run
-        gemspec_helper.gemspec.version ||= begin
-          version_helper.refresh
-          version_helper.to_s
-        end
-
-        gemspec_helper.gemspec.date    = Time.now
+        gemspec_helper.spec.version ||= version_helper.to_s
+        gemspec_helper.spec.date = Time.now
         gemspec_helper.write
 
         output.puts "Generated: #{gemspec_helper.path}"  
@@ -24,15 +25,8 @@ class Bueller
       end
 
       def self.run_for(bueller)
-        command = new
-
-        command.base_dir = bueller.base_dir
-        command.gemspec = bueller.gemspec
-        command.version = bueller.version
-        command.output = bueller.output
-        command.gemspec_helper = bueller.gemspec_helper
-        command.version_helper = bueller.version_helper
-
+        command = new(bueller)
+        command.run
         command
       end
     end

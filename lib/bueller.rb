@@ -21,8 +21,8 @@ class Bueller
   autoload :GemcutterTasks, 'bueller/gemcutter_tasks'
   autoload :RubyforgeTasks, 'bueller/rubyforge_tasks'
 
-  attr_reader :gemspec, :gemspec_helper, :version_helper
-  attr_accessor :base_dir, :output, :repo, :commit
+  attr_reader :gemspec
+  attr_accessor :base_dir, :output, :repo, :gemspec_helper, :version_helper, :commit
 
   def initialize(gemspec, base_dir = '.')
     @gemspec = gemspec
@@ -60,7 +60,7 @@ class Bueller
 
   # Writes out the gemspec
   def write_gemspec
-    Bueller::Commands::WriteGemspec.run_for(self)
+    Bueller::Commands::WriteGemspec.run_for self
   end
 
   # Validates the project's gemspec from disk in an environment similar to how 
@@ -71,63 +71,50 @@ class Bueller
 
   # Build a gem using the project's latest Gem::Specification
   def build_gem
-    Bueller::Commands::BuildGem.run_for(self)
+    Bueller::Commands::BuildGem.run_for self
   end
 
   # Install a previously built gem
   def install_gem
-    Bueller::Commands::InstallGem.run_for(self)
+    Bueller::Commands::InstallGem.run_for self
   end
 
   # Bumps the patch version.
   #
   # 1.5.1 -> 1.5.2
   def bump_patch_version
-    Bueller::Commands::Version::BumpPatch.run_for(self)
+    Bueller::Commands::Version::BumpPatch.run_for self
   end
 
   # Bumps the minor version.
   #
   # 1.5.1 -> 1.6.0
   def bump_minor_version
-    Bueller::Commands::Version::BumpMinor.run_for(self)
+    Bueller::Commands::Version::BumpMinor.run_for self
   end
 
   # Bumps the major version.
   #
   # 1.5.1 -> 2.0.0
   def bump_major_version()
-    Bueller::Commands::Version::BumpMajor.run_for(self)
+    Bueller::Commands::Version::BumpMajor.run_for self
   end
 
   # Bumps the version, to the specific major/minor/patch version, writing out the appropriate version.rb, and then reloads it.
   def write_version(major, minor, patch, build, options = {})
-    command = Bueller::Commands::Version::Write.new self
-    command.major = major
-    command.minor = minor
-    command.patch = patch
-    command.build = build
-    command.run
+    Bueller::Commands::Version::Write.run_for self
   end
 
   def release_gem_to_github
-    Bueller::Commands::ReleaseToGithub.run_for(self)
+    Bueller::Commands::ReleaseToGithub.run_for self
   end
 
   def git_tag_release
-    Bueller::Commands::GitTagRelease.run_for(self)
+    Bueller::Commands::GitTagRelease.run_for self
   end
 
   def release_gem_to_gemcutter
-    Bueller::Commands::ReleaseToGemcutter.run_for(self)
-  end
-
-  def release_gem_to_rubyforge
-    # no-op
-  end
-
-  def setup_rubyforge
-    # no-op
+    Bueller::Commands::ReleaseToGemcutter.run_for self
   end
 
   def git_base_dir(base_dir = nil)
