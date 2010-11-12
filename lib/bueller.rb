@@ -144,12 +144,4 @@ class Bueller
   def in_git_repo?
     !git_base_dir.nil?
   end
-
-  def version_file_exists?
-    File.exists?(@version_helper.plaintext_path) || File.exists?(@version_helper.yaml_path)
-  end
-
-  def expects_version_file?
-    gemspec.version.nil?
-  end
 end
