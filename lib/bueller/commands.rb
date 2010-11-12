@@ -5,7 +5,6 @@ class Bueller
     autoload :GitTagRelease, 'bueller/commands/git_tag_release'
     autoload :ReleaseToGithub, 'bueller/commands/release_to_github'
     autoload :ReleaseToGemcutter, 'bueller/commands/release_to_gemcutter'
-    autoload :ValidateGemspec, 'bueller/commands/validate_gemspec'
     autoload :WriteGemspec, 'bueller/commands/write_gemspec'
 
     module Version
