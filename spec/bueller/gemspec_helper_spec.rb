@@ -4,12 +4,8 @@ describe Bueller::GemSpecHelper do
   let(:spec) { Gemspec.build }
   let(:helper) { Bueller::GemSpecHelper.new(spec, File.dirname(__FILE__)) }
 
-  before :each do
-    Rake.application.instance_variable_set(:@rakefile, "Rakefile")
-  end
-
-  describe "given a gemspec" do
-    it 'should have sane gemspec path' do
+  describe '#path' do
+    it 'should return the path to the gemspec' do
       helper.path.should == "spec/bueller/#{spec.name}.gemspec"
     end
   end
