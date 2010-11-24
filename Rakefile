@@ -28,16 +28,6 @@ Rake::TestTask.new(:test) do |test|
   test.verbose = true
 end
 
-namespace :test do
-  task :gemspec_dup do
-    gemspec = Rake.application.bueller.gemspec
-    dupped_gemspec = gemspec.dup
-    cloned_gemspec = gemspec.clone
-    puts gemspec.to_ruby
-    puts dupped_gemspec.to_ruby
-  end
-end
-
 require 'yard'
 YARD::Rake::YardocTask.new(:yardoc) do |t|
   t.files   = FileList['lib/**/*.rb'].exclude('lib/bueller/templates/**/*.rb')

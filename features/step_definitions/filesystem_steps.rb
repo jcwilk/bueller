@@ -57,3 +57,10 @@ Given /^I use the existing project "([^"]+)" as a template$/ do |fixture_project
   @name = fixture_project
   FileUtils.cp_r File.join(fixture_dir, fixture_project), @working_dir
 end
+
+Then /^the gemspec has version \"(.*)"$/ do |version|
+  gemspec = Dir.glob(File.join(@working_dir, '*.gemspec')).first
+  raise "gemspec missing in #{@working_dir}" if gemspec.nil?
+  spec = File.read gemspec
+  spec.should =~ /#{version.gsub(/\./,'\.')}/
+end

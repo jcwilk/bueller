@@ -2,17 +2,13 @@ require 'spec_helper'
 
 describe Bueller::VersionHelper do
 
-  VERSION_TMP_DIR = File.dirname(__FILE__) + '/version_tmp'
-
-  let(:gemspec_helper) { Bueller::GemSpecHelper.new gemspec }
+  let(:gemspec_helper) { mock Bueller::GemSpecHelper }
   let(:helper) { Bueller::VersionHelper.new gemspec_helper }
 
   describe "full version" do
-    let(:gemspec) do
-      Gem::Specification.new do |s|
-        s.version = '3.5.4'
-      end
-    end 
+    before do
+      gemspec_helper.stub!(:version).and_return '3.5.4'
+    end
 
     it 'should have version 3.5.4' do
       helper.should have_version(3, 5, 4)
@@ -35,11 +31,9 @@ describe Bueller::VersionHelper do
   end
 
   describe "prerelease version" do
-    let(:gemspec) do
-      Gem::Specification.new do |s|
-        s.version = '3.5.4.a1'
-      end
-    end 
+    before do
+      gemspec_helper.stub!(:version).and_return '3.5.4.a1'
+    end
 
     it 'should be version 3.5.4.a1' do
       helper.should have_build_version(3, 5, 4, 'a1')

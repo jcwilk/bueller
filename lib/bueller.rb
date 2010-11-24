@@ -1,6 +1,6 @@
 require 'date'
 
-# A Bueller helps you craft the perfect Rubygem. Give him a gemspec, and he takes care of the rest.
+# Bueller helps you craft the perfect Rubygem. Give him a gemspec, and he takes care of the rest.
 #
 # See Bueller::Tasks for examples of how to get started. Additionally, resources are available on the wiki:
 #
@@ -21,15 +21,12 @@ class Bueller
   autoload :GemcutterTasks, 'bueller/gemcutter_tasks'
   autoload :RubyforgeTasks, 'bueller/rubyforge_tasks'
 
-  attr_reader :gemspec
   attr_accessor :base_dir, :output, :repo, :gemspec_helper, :version_helper, :commit
 
-  def initialize(gemspec, base_dir = '.')
-    @gemspec = gemspec
-
+  def initialize(base_dir = '.')
     @base_dir       = base_dir
     @repo           = Git.open(git_base_dir) if in_git_repo?
-    @gemspec_helper = GemSpecHelper.new(gemspec, base_dir)
+    @gemspec_helper = GemSpecHelper.new base_dir
     @version_helper = Bueller::VersionHelper.new @gemspec_helper
     @output         = $stdout
     @commit         = true
@@ -55,7 +52,7 @@ class Bueller
 
   # Human readable version, which is used in the gemspec.
   def version
-    @gemspec.version || @version_helper.to_s
+    @gemspec_helper.version || @version_helper.to_s
   end
 
   # Writes out the gemspec
@@ -66,7 +63,7 @@ class Bueller
   # Validates the project's gemspec from disk in an environment similar to how 
   # GitHub would build from it. See http://gist.github.com/16215
   def validate_gemspec
-    gemspec.validate
+    @gemspec_helper.validate
   end
 
   # Build a gem using the project's latest Gem::Specification

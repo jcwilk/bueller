@@ -1,10 +1,9 @@
 require 'spec_helper'
 
 describe Bueller do
-  let(:gemspec) { Gemspec.build }
-  let(:bueller_with_git) { Bueller.new(gemspec, git_dir_path) }
-  let(:bueller_without_git) { Bueller.new(gemspec, non_git_dir_path) }
-  let(:bueller) { Bueller.new(gemspec, git_dir_path) }
+  let(:bueller_with_git) { Bueller.new(git_dir_path) }
+  let(:bueller_without_git) { Bueller.new(non_git_dir_path) }
+  let(:bueller) { Bueller.new(git_dir_path) }
   let(:git_dir_path) { File.join(FileSystem.tmp_dir, 'git') }
   let(:non_git_dir_path) { File.join(FileSystem.tmp_dir, 'nongit') }
 
@@ -24,7 +23,7 @@ describe Bueller do
 
   describe '#git_base_dir' do
     it 'should find the base repo' do
-      bueller = Bueller.new(gemspec, File.dirname(File.expand_path(__FILE__)))
+      bueller = Bueller.new(File.dirname(File.expand_path(__FILE__)))
       bueller.git_base_dir.should == File.dirname(File.dirname(File.expand_path(__FILE__)))
     end
   end

@@ -20,8 +20,6 @@ class Bueller
       end
 
       def base_dir; bueller.base_dir; end
-      def gemspec; bueller.gemspec; end
-      def gemspec_helper; bueller.gemspec_helper; end
       def version; bueller.version; end
       def repo; bueller.repo; end
 

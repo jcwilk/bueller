@@ -28,11 +28,6 @@ class Bueller
         move_gem_file
       end
 
-      def gemspec
-        gemspec_helper.update_version(version_helper) unless gemspec_helper.has_version?
-        gemspec_helper.parse
-      end
-
       def pkg_dir
         @pkg_dir ||= File.join(base_dir, 'pkg')
       end
@@ -42,7 +37,7 @@ class Bueller
       end
 
       def build_gem
-        Gem::Builder.new(gemspec).build
+        Gem::Builder.new(gemspec_helper.gemspec).build
       end
 
       def move_gem_file

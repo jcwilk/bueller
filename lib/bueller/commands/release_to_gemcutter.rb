@@ -7,7 +7,6 @@ class Bueller
         @bueller = bueller
       end
 
-      def gemspec; bueller.gemspec; end
       def gemspec_helper; bueller.gemspec_helper; end
       def version; bueller.version; end
 

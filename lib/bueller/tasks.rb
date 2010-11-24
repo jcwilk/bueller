@@ -19,18 +19,15 @@ class Bueller
   #
   #   Bueller::Tasks.new
   class Tasks < ::Rake::TaskLib
-    attr_accessor :gemspec, :bueller
+    attr_accessor :bueller
 
     def initialize
-      gemspec_file = Dir.glob(File.expand_path('*.gemspec', Dir.pwd)).first
-      @gemspec = eval(File.read(gemspec_file)) if gemspec_file
-
       Rake.application.bueller_tasks = self
       define
     end
 
     def bueller
-      @bueller ||= Bueller.new(@gemspec)
+      @bueller ||= Bueller.new
     end
 
   private

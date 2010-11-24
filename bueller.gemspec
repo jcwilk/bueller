@@ -24,9 +24,11 @@ Gem::Specification.new do |s|
   s.files = Dir.glob('lib/**/*.rb')
   s.test_files = Dir.glob('spec/**/*.rb')
 
-  s.add_runtime_dependency('bundler', '~> 1.0.0')
-  s.add_runtime_dependency('git', '>= 1.2.5')
-  s.add_runtime_dependency('rake', '>= 0')
+  s.add_runtime_dependency 'bundler', '~> 1.0.0'
+  s.add_runtime_dependency 'git', '>= 1.2.5'
+  s.add_runtime_dependency 'rake', '>= 0'
+  s.add_runtime_dependency 'ruby_parser'
+  s.add_runtime_dependency 'ruby2ruby'
   s.add_development_dependency('activesupport', '~> 2.3.5')
   s.add_development_dependency('bluecloth', '>= 0')
   s.add_development_dependency('cucumber', '>= 0')
@@ -35,7 +37,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency('redgreen', '>= 0')
   s.add_development_dependency('rspec', '~> 2.0.0')
   s.add_development_dependency('sandbox')
-  s.add_development_dependency('test-construct', '>= 0')
   s.add_development_dependency('timecop', '>= 0')
   s.add_development_dependency('yard', '~> 0.6.0')
 end
