@@ -2,7 +2,7 @@ class Bueller
   module Commands
     class InstallGem
       def self.run_for(bueller)
-        command = new
+        command = new bueller
         command.run
         command
       end
