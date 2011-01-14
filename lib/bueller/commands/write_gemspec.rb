@@ -12,8 +12,8 @@ class Bueller
       end
 
       def run
-        gemspec_helper.set_version version_helper.to_s
-        gemspec_helper.set_date Time.now
+        gemspec_helper.update_version version_helper.to_s
+        gemspec_helper.set_date
         gemspec_helper.write
 
         output.puts "Generated: #{gemspec_helper.path}"  

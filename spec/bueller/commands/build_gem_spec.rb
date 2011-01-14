@@ -1,11 +1,7 @@
 require 'spec_helper'
 
 describe Bueller::Commands::BuildGem do
-  let(:gemspec) do
-    g = Gemspec.build
-    g.file_name = 'zomg-1.2.3.gem'
-  end
-  let(:bueller) { Bueller.new Gemspec.build }
+  let(:bueller) { Bueller.new }
   let(:command) { Bueller::Commands::BuildGem.new bueller }
 
   describe '#run' do
@@ -17,22 +13,6 @@ describe Bueller::Commands::BuildGem do
     it 'should move the gem into the package directory' do
       command.should_receive :move_gem_file
       command.run
-    end
-  end
-
-  describe '#gemspec' do
-    before do
-      command.gemspec_helper.stub! :parse
-    end
-    it 'should update the version of gemspec helper if the gemspec does not have a version' do
-      command.gemspec_helper.stub!(:has_version?).and_return false
-      command.gemspec_helper.should_receive :update_version
-      command.gemspec
-    end
-    it 'should not update the version of gemspec helper if the gemspec has a version' do
-      command.gemspec_helper.stub!(:has_version?).and_return true
-      command.gemspec_helper.should_not_receive :update_version
-      command.gemspec
     end
   end
 

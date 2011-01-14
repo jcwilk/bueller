@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Bueller::VersionHelper do
 
-  let(:gemspec_helper) { mock Bueller::GemSpecHelper }
+  let(:gemspec_helper) { mock Bueller::GemSpecHelper, :has_version? => true }
   let(:helper) { Bueller::VersionHelper.new gemspec_helper }
 
   describe "full version" do

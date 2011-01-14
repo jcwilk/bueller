@@ -24,12 +24,27 @@ class Bueller
   attr_accessor :base_dir, :output, :repo, :gemspec_helper, :version_helper, :commit
 
   def initialize(base_dir = '.')
-    @base_dir       = base_dir
-    @repo           = Git.open(git_base_dir) if in_git_repo?
-    @gemspec_helper = GemSpecHelper.new base_dir
-    @version_helper = Bueller::VersionHelper.new @gemspec_helper
-    @output         = $stdout
-    @commit         = true
+    self.base_dir = base_dir
+  end
+
+  def gemspec_helper
+    @gemspec_helper ||= GemSpecHelper.new base_dir
+  end
+
+  def version_helper
+    @version_helper ||= Bueller::VersionHelper.new gemspec_helper
+  end
+
+  def repo
+    @repo ||= Git.open(git_base_dir) if in_git_repo?
+  end
+
+  def commit
+    @commit = @commit.nil? ? true : @commit
+  end
+
+  def output
+    @output ||= $stdout
   end
 
   # Major version, as defined by the gemspec's Version module.
@@ -52,7 +67,7 @@ class Bueller
 
   # Human readable version, which is used in the gemspec.
   def version
-    @gemspec_helper.version || @version_helper.to_s
+    gemspec_helper.version || @version_helper.to_s
   end
 
   # Writes out the gemspec
@@ -63,7 +78,7 @@ class Bueller
   # Validates the project's gemspec from disk in an environment similar to how 
   # GitHub would build from it. See http://gist.github.com/16215
   def validate_gemspec
-    @gemspec_helper.validate
+    gemspec_helper.validate
   end
 
   # Build a gem using the project's latest Gem::Specification

@@ -37,7 +37,7 @@ class Bueller
       end
 
       def build_gem
-        Gem::Builder.new(gemspec_helper.gemspec).build
+        Gem::Builder.new(gemspec_helper.spec).build
       end
 
       def move_gem_file

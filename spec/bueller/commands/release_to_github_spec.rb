@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Bueller::Commands::ReleaseToGithub do
-  let(:bueller) { Bueller.new Gemspec.build }
+  let(:bueller) { Bueller.new }
   let(:command) { Bueller::Commands::ReleaseToGithub.new bueller, :output => StringIO.new }
 
   before :each do

@@ -5,8 +5,9 @@ module FileSystem
     '/tmp/bueller_test'
   end
 
-  def fixture_dir
-    File.expand_path('../fixtures/bar', __FILE__)
+  def fixture_path(fixture = nil)
+    path = File.join '../fixtures', fixture
+    File.expand_path(path, File.dirname(__FILE__))
   end
 
   def remove_tmpdir!

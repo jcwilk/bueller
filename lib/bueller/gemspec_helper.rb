@@ -1,11 +1,9 @@
-require 'ruby_parser'
-require 'ruby2ruby'
-
 class Bueller
   class GemSpecHelper
     class VersionMissing < StandardError; end
+    class NoGemspecFound < StandardError; end
 
-    attr_accessor :spec, :spec_ruby, :spec_sexp, :base_dir, :errors
+    attr_accessor :spec, :spec_source, :base_dir, :errors
 
     def errors
       @errors ||= []
@@ -18,6 +16,7 @@ class Bueller
     def valid?
       begin
         reload_spec
+        spec
       rescue => e
         errors << "could not eval gemspec: #{e}"
         return false
@@ -35,30 +34,27 @@ class Bueller
 
     def write
       File.open(path, 'w') do |f|
-        f.puts spec_sexp
+        f.puts spec_source
       end 
     end
 
     def path
       denormalized_path = Dir.glob(File.join(base_dir, '*.gemspec')).first
+      raise NoGemspecFound, "No gemspec found in #{base_dir}" if denormalized_path.nil?
       absolute_path = File.expand_path(denormalized_path)
       absolute_path.gsub(Dir.getwd + File::SEPARATOR, '') 
     end
 
-    def spec
-      @spec ||= reload_spec
-    end
-
-    def spec_ruby
-      @spec_ruby ||= File.read(path)
-    end
-
-    def spec_sexp
-      @spec_sexp ||= RubyParser.new.parse(spec_ruby)
+    def spec_source
+      @spec_source ||= File.read(path)
     end
 
     def reload_spec
-      @spec = eval(Ruby2Ruby.new.process(spec_sexp))
+      @spec = nil
+    end
+
+    def spec
+      @spec ||= eval(spec_source)
     end
 
     def gem_path
@@ -67,22 +63,15 @@ class Bueller
 
     def update_version(version)
       raise VersionMissing unless has_version?
-      version_node = sexp_version
-      version_node.last.last = version
+      spec_source.sub! /\.version\s*=\s*.*/, %Q{.version = "#{version}"}
       reload_spec
     end
 
-    def sexp_version(exp = spec_sexp)
-      return nil unless exp.is_a? RubyParser::Sexp
-      puts "examining #{exp.first.inspect} => #{exp[1..-1]}"
-      return exp if exp.first == :attrasgn and exp.include?(:version=)
-      result = exp.each do |subexp|
-        tangent = sexp_version(subexp)
-        return tangent unless tangent.nil?
-      end
-      nil
+    def set_date
+      spec_source.sub! /\.date\s*=\s*.*/, %Q{.date = "#{Time.now.strftime('%Y-%m-%d')}"}
+      reload_spec
     end
-    
+
     def has_version?
       !spec.version.nil?
     end
