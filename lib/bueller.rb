@@ -108,13 +108,13 @@ class Bueller
   # Bumps the major version.
   #
   # 1.5.1 -> 2.0.0
-  def bump_major_version()
+  def bump_major_version
     Bueller::Commands::Version::BumpMajor.run_for self
   end
 
   # Bumps the version, to the specific major/minor/patch version, writing out the appropriate version.rb, and then reloads it.
-  def write_version(major, minor, patch, build, options = {})
-    Bueller::Commands::Version::Write.run_for self
+  def write_version(major, minor, patch, build)
+    Bueller::Commands::Version::Write.run_for self, major, minor, patch, build
   end
 
   def release_gem_to_github

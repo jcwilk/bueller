@@ -34,7 +34,7 @@ class Bueller
 
     def define
       task :gemspec_required do
-        if ! File.exist?(bueller.gemspec_helper.path)
+        unless File.exist?(bueller.gemspec_helper.path)
           abort "Expected #{bueller.gemspec_helper.path} to exist. See 'rake gemspec:write' to create it"
         end
       end
@@ -81,7 +81,7 @@ class Bueller
         desc "Writes out an explicit version. Respects the following environment variables, or defaults to 0: MAJOR, MINOR, PATCH. Also recognizes BUILD, which defaults to nil"
         task :write do
           major, minor, patch, build = ENV['MAJOR'].to_i, ENV['MINOR'].to_i, ENV['PATCH'].to_i, (ENV['BUILD'] || nil )
-          bueller.write_version(major, minor, patch, build, :announce => false, :commit => false)
+          bueller.write_version(major, minor, patch, build)
           $stdout.puts "Updated version: #{bueller.version}"
         end
 

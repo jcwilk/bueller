@@ -18,13 +18,13 @@ class Bueller
         end
 
         def version_helper; bueller.version_helper; end
-        def gemspec; bueller.gemspec; end
+        def gemspec_helper; bueller.gemspec_helper; end
 
         def run
           update_version
 
-          version_helper.write
-          gemspec.version = version_helper.to_s
+          gemspec_helper.update_version version_helper.to_s
+          gemspec_helper.write
         end
 
         def update_version

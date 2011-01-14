@@ -70,7 +70,7 @@ describe Bueller do
 
   describe '#bump_major_version' do
     it 'should build and run write version command when writing version' do
-      Bueller::Commands::Version::Write.should_receive(:run_for).with(bueller)
+      Bueller::Commands::Version::Write.should_receive(:run_for).with(bueller, 1, 5, 2, 'a1')
 
       bueller.write_version(1, 5, 2, 'a1')
     end
