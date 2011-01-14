@@ -18,7 +18,6 @@ class Bueller
   autoload :GemSpecHelper,  'bueller/gemspec_helper'
 
   autoload :Tasks,          'bueller/tasks'
-  autoload :GemcutterTasks, 'bueller/gemcutter_tasks'
   autoload :RubyforgeTasks, 'bueller/rubyforge_tasks'
 
   attr_accessor :base_dir, :output, :repo, :gemspec_helper, :version_helper, :commit
@@ -125,8 +124,8 @@ class Bueller
     Bueller::Commands::GitTagRelease.run_for self
   end
 
-  def release_gem_to_gemcutter
-    Bueller::Commands::ReleaseToGemcutter.run_for self
+  def release_gem_to_rubygems
+    Bueller::Commands::ReleaseToRubygems.run_for self
   end
 
   def git_base_dir(base_dir = nil)

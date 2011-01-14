@@ -131,26 +131,14 @@ class Bueller
 
       task :release => 'git:release'
 
-      namespace :gemcutter do
-        desc "Release gem to Gemcutter"
+      namespace :rubygems do
+        desc "Release gem to Rubygems"
         task :release => [:gemspec, :build] do
-          bueller.release_gem_to_gemcutter
+          bueller.release_gem_to_rubygems
         end
       end
 
-      task :release => 'gemcutter:release'
-
-      desc "Check that runtime and development dependencies are installed" 
-      task :check_dependencies do
-        puts "Use bundle check instead"
-        `bundle check`
-      end
-
-      desc "Start IRB with all runtime dependencies loaded"
-      task :console do
-        puts "Use bundle console instead"
-        `bundle console`
-      end
+      task :release => 'rubygems:release'
     end
   end
 end

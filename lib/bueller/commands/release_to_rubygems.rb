@@ -1,6 +1,6 @@
 class Bueller
   module Commands
-    class ReleaseToGemcutter
+    class ReleaseToRubygems
       attr_reader :bueller
 
       def initialize(bueller)
@@ -11,7 +11,7 @@ class Bueller
       def version; bueller.version; end
 
       def run
-        command = "bundle exec gem push #{gemspec_helper.gem_path}"
+        command = "gem push #{gemspec_helper.gem_path}"
         $stdout.puts "Executing #{command.inspect}:"
         sh command
       end

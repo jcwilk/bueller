@@ -4,7 +4,7 @@ class Bueller
     autoload :InstallGem, 'bueller/commands/install_gem'
     autoload :GitTagRelease, 'bueller/commands/git_tag_release'
     autoload :ReleaseToGithub, 'bueller/commands/release_to_github'
-    autoload :ReleaseToGemcutter, 'bueller/commands/release_to_gemcutter'
+    autoload :ReleaseToRubygems, 'bueller/commands/release_to_rubygems'
     autoload :WriteGemspec, 'bueller/commands/write_gemspec'
 
     module Version
