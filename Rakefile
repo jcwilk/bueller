@@ -11,21 +11,8 @@ $LOAD_PATH.unshift('lib')
 
 require 'bueller'
 Bueller::Tasks.new
-
-Bueller::GemcutterTasks.new
-
 Bueller::RubyforgeTasks.new do |t|
   t.doc_task = :yardoc
-end
-
-
-require 'rake/testtask'
-Rake::TestTask.new(:test) do |test|
-  test.test_files = FileList.new('test/**/test_*.rb') do |list|
-    list.exclude 'test/test_helper.rb'
-  end
-  test.libs << 'test'
-  test.verbose = true
 end
 
 require 'yard'
@@ -33,10 +20,10 @@ YARD::Rake::YardocTask.new(:yardoc) do |t|
   t.files   = FileList['lib/**/*.rb'].exclude('lib/bueller/templates/**/*.rb')
 end
 
-require 'rcov/rcovtask'
-Rcov::RcovTask.new(:rcov) do |rcov|
-  rcov.libs << 'spec'
-  rcov.pattern = 'spec/**/*_spec.rb'
+require 'rspec/core/rake_task'
+desc "Run all examples"
+RSpec::Core::RakeTask.new('examples') do |c|
+  c.rspec_opts = '-Ispec'
 end
 
 require 'cucumber/rake/task'
@@ -48,3 +35,5 @@ namespace :features do
     features.cucumber_opts = "features --format progress"
   end
 end
+
+task :default => [:features, :examples]

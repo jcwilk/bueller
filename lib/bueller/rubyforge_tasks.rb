@@ -10,8 +10,6 @@ class Bueller
   #
   #     Bueller::RubyforgeTasks.new
   #
-  # Easy enough, right?
-  # 
   # There are a few options you can tweak:
   #
   #  * project: the rubyforge project to operate on. This defaults to whatever you specified in your gemspec. Defaults to your gem name.
