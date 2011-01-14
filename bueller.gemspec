@@ -1,12 +1,12 @@
 Gem::Specification.new do |s|
-  s.name = %q{bueller}
+  s.name = 'bueller'
   s.version = "0.0.1"
   s.date = '2010-02-15'
-  s.authors = ['Josh Nichols', 'Derek Kastner']
+  s.authors = ['Derek Kastner']
   s.email = 'dkastner@gmail.com'
   s.homepage = 'http://github.com/dkastner/bueller'
-  s.description = 'Simpler and opinionateder helper for creating Rubygem projects on GitHub'
-  s.summary = 'Simple and opinionated helper for creating Rubygem projects on GitHub'
+  s.description = 'Tools for building gems with bundler and friends'
+  s.summary = 'Tools for building gems with bundler and friends'
   s.rdoc_options = ['--charset=UTF-8']
   s.extra_rdoc_files = [
     "ChangeLog.markdown",
@@ -21,23 +21,22 @@ Gem::Specification.new do |s|
   s.require_paths = ['lib']
   s.executables = ['bueller']
   s.default_executable = 'bueller'
-  s.files = Dir.glob('lib/**/*.rb')
-  s.test_files = Dir.glob('spec/**/*.rb')
+  s.files = Dir.glob('lib/**/*') + Dir.glob('bin/**/*') + 
+              ['lib/bueller/templates/.gitignore',
+               'lib/bueller/templates/.document']
+  s.test_files = Dir.glob('spec/**/*')
 
   s.add_runtime_dependency 'bundler', '~> 1.0.0'
   s.add_runtime_dependency 'git', '>= 1.2.5'
-  s.add_runtime_dependency 'rake', '>= 0'
-  s.add_runtime_dependency 'ruby_parser'
-  s.add_runtime_dependency 'ruby2ruby'
-  s.add_development_dependency('activesupport', '~> 2.3.5')
-  s.add_development_dependency('bluecloth', '>= 0')
-  s.add_development_dependency('cucumber', '>= 0')
-  s.add_development_dependency('mhennemeyer-output_catcher', '>= 0')
-  s.add_development_dependency('rcov', '>= 0')
-  s.add_development_dependency('redgreen', '>= 0')
-  s.add_development_dependency('rspec', '~> 2.0.0')
-  s.add_development_dependency('sandbox')
-  s.add_development_dependency('timecop', '>= 0')
-  s.add_development_dependency('yard', '~> 0.6.0')
+  s.add_runtime_dependency 'rake'
+  s.add_development_dependency 'activesupport', '~> 2.3.5'
+  s.add_development_dependency 'bluecloth'
+  s.add_development_dependency 'cucumber'
+  s.add_development_dependency 'mhennemeyer-output_catcher'
+  s.add_development_dependency 'redgreen'
+  s.add_development_dependency 'rspec', '~> 2.0.0'
+  s.add_development_dependency 'sandbox'
+  s.add_development_dependency 'timecop'
+  s.add_development_dependency 'yard', '~> 0.6.0'
 end
 
