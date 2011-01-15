@@ -54,6 +54,12 @@ Given /^I set BUELLER_OPTS env variable to "(.*)"$/ do |val|
   ENV['BUELLER_OPTS'] = val
 end
 
+Given /^it is the year (\d+)$/ do |year|
+  time = Time.local(year.to_i, 9, 1, 10, 5, 0)
+  Timecop.travel(time)
+end
+
+
 When /^I generate a (.*)project named '((?:\w|-|_)+)' that is '([^']*)'$/ do |testing_framework, name, summary|
   When "I generate a #{testing_framework}project named '#{name}' that is '#{summary}' and described as ''"
 end
@@ -145,14 +151,14 @@ Then /^Rakefile has '(.*)' in the Rcov::RcovTask libs$/ do |libs|
 end
 
 
-Then /^'(.*)' contains '(.*)'$/ do |file, expected_string|
+Then /^'(.*)' contains( regex)? '(.*)'$/ do |file, regex, expected_string|
   contents = File.read(File.join(@working_dir, @name, file))
-  contents.should =~ /#{expected_string}/
+  pattern = regex ? expected_string : Regexp.escape(expected_string)
+  contents.should =~ /#{pattern}/
 end
 
 Then /^'(.*)' mentions copyright belonging to me in (\d{4})$/ do |file, year|
-  contents = File.read(File.join(@working_dir, @name, file))
-  contents.should =~ /Copyright \(c\) #{year} #{@user_name}/
+  Then %Q{'#{file}' contains regex 'Copyright \\(c\\) #{year} #{@user_name}'}
 end
 
 Then /^'(.*)' mentions copyright belonging to me in the current year$/ do |file|
@@ -163,51 +169,33 @@ end
 
 Then /^LICENSE credits '(.*)'$/ do |copyright_holder|
   Then "a file named 'the-perfect-gem/LICENSE' is created"
-  @license_content ||= File.read(File.join(@working_dir, @name, 'LICENSE'))
-  @license_content.should =~ /#{copyright_holder}/
+  Then "'LICENSE' contains '#{copyright_holder}'"
 end
-
-Given /^it is the year (\d+)$/ do |year|
-  time = Time.local(year.to_i, 9, 1, 10, 5, 0)
-  Timecop.travel(time)
-end
-
 
 Then /^LICENSE has a copyright in the year (\d+)$/ do |year|
   Then "a file named 'the-perfect-gem/LICENSE' is created"
-  @license_content ||= File.read(File.join(@working_dir, @name, 'LICENSE'))
-  @license_content.should =~ /#{year}/
+  Then "'LICENSE' contains '#{year}'"
 end
 
 
 Then /^'(.*)' should define '(.*)' as a subclass of '(.*)'$/ do |file, class_name, superclass_name|
-  @test_content = File.read((File.join(@working_dir, @name, file)))
-
-  @test_content.should =~ /class #{class_name} < #{superclass_name}/
+  Then "'#{file}' contains 'class #{class_name} < #{superclass_name}'"
 end
 
 Then /^'(.*)' should describe '(.*)'$/ do |file, describe_name|
-  @spec_content ||= File.read((File.join(@working_dir, @name, file)))
-
-  @spec_content.should =~ /describe "?#{describe_name}"? do/
+  Then "'#{file}' contains regex 'describe \"?#{describe_name}\"? do'"
 end
 
 Then /^'(.*)' should contextualize '(.*)'$/ do |file, describe_name|
-  @spec_content ||= File.read((File.join(@working_dir, @name, file)))
-
-  @spec_content.should =~ /context "#{describe_name}" do/
+  Then "'#{file}' contains regex 'context \"#{describe_name}\" do'"
 end
 
 Then /^'(.*)' should have tests for '(.*)'$/ do |file, describe_name|
-  @tests_content ||= File.read((File.join(@working_dir, @name, file)))
-
-  @tests_content.should =~ /Shindo.tests\("#{describe_name}"\) do/
+  Then %Q{'#{file}' contains 'Shindo.tests("#{describe_name}") do'}
 end
 
 Then /^'(.*)' requires '(.*)'$/ do |file, lib|
-  content = File.read(File.join(@working_dir, @name, file))
-
-  content.should =~ /require ['"]#{Regexp.escape(lib)}['"]/
+  Then %Q{'#{file}' contains regex 'require ['"]#{Regexp.escape(lib)}['"]'}
 end
 
 Then /^'(.*)' does not require '(.*)'$/ do |file, lib|
@@ -230,20 +218,16 @@ Then /^Rakefile does not instantiate a (.*)$/ do |task_name|
 end
 
 Then /^Rakefile instantiates a (.*)$/ do |task_name|
-  content = File.read(File.join(@working_dir, @name, 'Rakefile'))
-  content.should =~ /#{task_name}/
+  Then %Q{'Rakefile' contains '#{task_name}'}
 end
 
 
 Then /^'(.+?)' should autorun tests$/ do |test_helper|
-  content = File.read(File.join(@working_dir, @name, test_helper))
-
-  content.should =~ /MiniTest::Unit.autorun/
+  Then %Q{'#{test_helper}' contains 'MiniTest::Unit.autorun'}
 end
 
 Then /^cucumber world extends "(.*)"$/ do |module_to_extend|
-  content = File.read(File.join(@working_dir, @name, 'features', 'support', 'env.rb'))
-  content.should =~ /World\(#{module_to_extend}\)/
+  Then %Q{'features/support/env.rb' contains 'World\(#{module_to_extend}\)'}
 end
 
 
@@ -298,4 +282,12 @@ end
 Then /^'Gemfile' depends on the gemspec$/ do
   @gemfile_content ||= File.read(File.join(@working_dir, @name, 'Gemfile'))
   @gemfile_content.should =~ /gemspec/
+end
+
+Then /^the gemspec has '(.*)' set to '(.*)'$/ do |property, value|
+  Then %Q{'the-perfect-gem.gemspec' contains regex '\\.#{property}\\s*=.*['"]#{Regexp.escape(value)}['"]'}
+end
+
+Then /^the gemspec has development dependency '(.*)'$/ do |gem|
+  Then %Q{'the-perfect-gem.gemspec' contains 'add_development_dependency '#{gem}''}
 end

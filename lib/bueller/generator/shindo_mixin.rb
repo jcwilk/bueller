@@ -2,7 +2,7 @@ class Bueller
   class Generator
     module ShindoMixin
       def self.extended(generator)
-        generator.development_dependencies << ["shindo", ">= 0"]
+        generator.development_dependencies << 'shindo'
       end
 
       def default_task

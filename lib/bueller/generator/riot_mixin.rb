@@ -2,7 +2,7 @@ class Bueller
   class Generator
     module RiotMixin
       def self.extended(generator)
-        generator.development_dependencies << ["riot", ">= 0"]
+        generator.development_dependencies << 'riot'
       end
 
       def default_task

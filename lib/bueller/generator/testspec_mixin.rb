@@ -2,7 +2,7 @@ class Bueller
   class Generator
     module TestspecMixin
       def self.extended(generator)
-        generator.development_dependencies << ["test-spec", ">= 0"]
+        generator.development_dependencies << 'test-spec'
       end
 
       def default_task

@@ -2,7 +2,7 @@ class Bueller
   class Generator
     module RspecMixin
       def self.extended(generator)
-        generator.development_dependencies << ["rspec", "~> 2.0.0"]
+        generator.development_dependencies << 'rspec'
       end
 
       def default_task

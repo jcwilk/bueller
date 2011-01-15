@@ -2,7 +2,7 @@ class Bueller
   class Generator
     module YardMixin
       def self.extended(generator)
-        generator.development_dependencies << ["yard", ">= 0"]
+        generator.development_dependencies << 'yard'
       end
       
       def doc_task

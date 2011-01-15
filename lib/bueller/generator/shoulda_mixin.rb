@@ -2,7 +2,7 @@ class Bueller
   class Generator
     module ShouldaMixin
       def self.extended(generator)
-        generator.development_dependencies << ["shoulda", ">= 0"]
+        generator.development_dependencies << 'shoulda'
       end
 
       def default_task

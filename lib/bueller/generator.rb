@@ -93,22 +93,22 @@ class Bueller
       self.target_dir             = options[:directory] || self.project_name
 
       self.summary                = options[:summary] || 'TODO: one-line summary of your gem'
-      self.description            = options[:description] || 'TODO: longer description of your gem'
+      self.description            = options[:description] || 'TODO: detailed description of your gem'
       self.use_cucumber    = options[:use_cucumber]
       self.use_reek        = options[:use_reek]
       self.use_roodi       = options[:use_roodi]
       self.setup_gemcutter = options[:gemcutter]
       self.setup_rubyforge = options[:rubyforge]
 
-      development_dependencies << ["cucumber", ">= 0"] if use_cucumber?
+      development_dependencies << 'cucumber' if use_cucumber?
 
-      # TODO make bundler optional?
-      development_dependencies << ["bundler", ">= 0.9.5"]
-      development_dependencies << ["bueller", ">= 1.4.0"]
-      development_dependencies << ["rcov", ">= 0"]
+      development_dependencies << 'bundler'
+      development_dependencies << 'bueller'
+      development_dependencies << 'rake'
+      development_dependencies << 'rcov'
 
-      development_dependencies << ["reek", ">= 0"] if use_reek?
-      development_dependencies << ["roodi", ">= 0"] if use_roodi?
+      development_dependencies << 'reek' if use_reek?
+      development_dependencies << 'roodi' if use_roodi?
 
       self.user_name       = options[:user_name]
       self.user_email      = options[:user_email]
@@ -188,6 +188,7 @@ class Bueller
       output_template_in_target 'LICENSE'
       output_template_in_target 'README.rdoc'
       output_template_in_target '.document'
+      output_template_in_target 'gemspec', "#{project_name}.gemspec"
 
       mkdir_in_target           lib_dir
       touch_in_target           File.join(lib_dir, lib_filename)

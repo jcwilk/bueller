@@ -13,7 +13,9 @@ Feature: generated directory layout
 
     And a file named 'the-perfect-gem/README.rdoc' is created
     And a file named 'the-perfect-gem/.document' is created
+    And a file named 'the-perfect-gem/Gemfile' is created
     And a file named 'the-perfect-gem/lib/the-perfect-gem.rb' is created
+    And a file named 'the-perfect-gem/the-perfect-gem.gemspec' is created
 
   Scenario: bacon
     Given a working directory

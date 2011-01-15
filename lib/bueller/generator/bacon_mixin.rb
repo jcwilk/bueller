@@ -3,7 +3,7 @@ class Bueller
     module BaconMixin
 
       def self.extended(generator)
-        generator.development_dependencies << ["bacon", ">= 0"]
+        generator.development_dependencies << 'bacon'
       end
 
       def default_task
