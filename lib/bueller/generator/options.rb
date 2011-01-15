@@ -8,7 +8,7 @@ class Bueller
         super()
 
         @orig_args = args.clone
-        self[:testing_framework]       = :shoulda
+        self[:testing_framework]       = :rspec
         self[:documentation_framework] = :rdoc
 
         git_config = Git.global_config
