@@ -238,10 +238,10 @@ describe Bueller::Generator do
 
   it 'should create a project using rspec' do
     generator = Bueller::Generator.new options.merge(:testing_framework => :rspec) 
-    generator.test_task.should == 'spec'
+    generator.test_task.should == 'examples'
     generator.test_dir.should == 'spec'
-    generator.default_task.should == 'spec'
-    generator.feature_support_require.should == 'spec/expectations'
+    generator.default_task.should == 'examples'
+    generator.feature_support_require.should == 'rspec/expectations'
     generator.feature_support_extend.should == nil
     generator.test_pattern.should == 'spec/**/*_spec.rb'
     generator.test_filename.should == 'the-perfect-gem_spec.rb'

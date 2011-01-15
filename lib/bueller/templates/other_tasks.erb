@@ -1,9 +1,8 @@
 <% case testing_framework %>
 <% when :rspec %>
-require 'spec/rake/spectask'
-Spec::Rake::SpecTask.new(:<%= test_task %>) do |<%= test_task %>|
-  <%= test_task %>.libs << 'lib' << '<%= test_dir %>'
-  <%= test_task %>.spec_files = FileList['<%= test_pattern %>']
+require 'rspec/core/rake_task'
+RSpec::Core::RakeTask.new(:<%= test_task %>) do |<%= test_task %>|
+  <%= test_task %>.rspec_opts = '-I<%= test_dir %>'
 end
 <% when :micronaut %>
 require 'micronaut/rake_task'

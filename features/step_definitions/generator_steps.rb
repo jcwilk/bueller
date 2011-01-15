@@ -189,7 +189,7 @@ end
 Then /^'(.*)' should describe '(.*)'$/ do |file, describe_name|
   @spec_content ||= File.read((File.join(@working_dir, @name, file)))
 
-  @spec_content.should =~ /describe "#{describe_name}" do/
+  @spec_content.should =~ /describe "?#{describe_name}"? do/
 end
 
 Then /^'(.*)' should contextualize '(.*)'$/ do |file, describe_name|

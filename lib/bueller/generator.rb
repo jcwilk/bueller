@@ -75,7 +75,7 @@ class Bueller
       self.testing_framework  = options[:testing_framework]
       self.documentation_framework = options[:documentation_framework]
       begin
-        generator_mixin_name = "#{self.testing_framework.to_s.capitalize}Mixin"
+        generator_mixin_name = "#{testing_framework.to_s.capitalize}Mixin"
         generator_mixin = self.class.const_get(generator_mixin_name)
         extend generator_mixin
       rescue NameError => e
@@ -197,13 +197,6 @@ class Bueller
                                 File.join(test_dir, test_helper_filename)
       output_template_in_target File.join(testing_framework.to_s, 'flunking.rb'),
                                 File.join(test_dir, test_filename)
-
-
-      if testing_framework == :rspec
-        output_template_in_target File.join(testing_framework.to_s, 'spec.opts'),
-                                  File.join(test_dir, 'spec.opts')
-
-      end
 
       if use_cucumber?
         mkdir_in_target           features_dir

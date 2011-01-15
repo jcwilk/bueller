@@ -23,7 +23,8 @@ Gem::Specification.new do |s|
   s.default_executable = 'bueller'
   s.files = Dir.glob('lib/**/*') + Dir.glob('bin/**/*') + 
               ['lib/bueller/templates/.gitignore',
-               'lib/bueller/templates/.document']
+               'lib/bueller/templates/.document',
+               'lib/bueller/templates/rspec/.rspec']
   s.test_files = Dir.glob('spec/**/*')
 
   s.add_runtime_dependency 'bundler', '~> 1.0.0'

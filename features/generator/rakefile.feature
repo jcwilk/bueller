@@ -36,9 +36,8 @@ Feature: generated Rakefile
   Scenario: rspec
     When I generate a rspec project named 'the-perfect-gem' that is 'zomg, so good'
 
-    Then 'Rakefile' requires 'spec/rake/spectask'
-    And Rakefile has 'spec/**/*_spec.rb' for the Spec::Rake::SpecTask pattern
-    And Rakefile has "spec" as the default task
+    Then 'Rakefile' requires 'rspec/core/rake_task'
+    And Rakefile has "examples" as the default task
 
   Scenario: shoulda
     When I generate a shoulda project named 'the-perfect-gem' that is 'zomg, so good'
