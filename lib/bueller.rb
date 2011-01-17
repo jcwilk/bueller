@@ -1,4 +1,5 @@
 require 'date'
+require 'git'
 
 # Bueller helps you craft the perfect Rubygem. Give him a gemspec, and he takes care of the rest.
 #
