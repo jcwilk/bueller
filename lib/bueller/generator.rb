@@ -191,7 +191,9 @@ class Bueller
       output_template_in_target 'gemspec', "#{project_name}.gemspec"
 
       mkdir_in_target           lib_dir
-      touch_in_target           File.join(lib_dir, lib_filename)
+      File.open File.join(target_dir, lib_dir, lib_filename), 'w' do |f|
+        f.puts "module #{constant_name}\n\nend"
+      end
 
       mkdir_in_target           test_dir
       output_template_in_target File.join(testing_framework.to_s, 'helper.rb'),

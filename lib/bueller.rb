@@ -74,12 +74,6 @@ class Bueller
     Bueller::Commands::WriteGemspec.run_for self
   end
 
-  # Validates the project's gemspec from disk in an environment similar to how 
-  # GitHub would build from it. See http://gist.github.com/16215
-  def validate_gemspec
-    gemspec_helper.validate
-  end
-
   # Build a gem using the project's latest Gem::Specification
   def build_gem
     Bueller::Commands::BuildGem.run_for self

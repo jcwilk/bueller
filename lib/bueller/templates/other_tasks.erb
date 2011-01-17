@@ -24,9 +24,8 @@ end
 
 <% case testing_framework %>
 <% when :rspec %>
-Spec::Rake::SpecTask.new(:rcov) do |spec|
-  spec.libs << 'lib' << 'spec'
-  spec.pattern = '<%= test_pattern %>'
+RSpec::Core::RakeTask.new(:rcov) do |spec|
+  spec.rspec_opts = '-I<%= test_dir %>'
   spec.rcov = true
 end
 <% when :micronaut %>

@@ -48,26 +48,16 @@ class Bueller
         bueller.install_gem
       end
 
-      desc 'Generate and validates gemspec'
-      task :gemspec => ['gemspec:generate', 'gemspec:validate']
-
       namespace :gemspec do
         desc 'Validates the gemspec'
         task :validate => :gemspec_required do
-          bueller.validate_gemspec
-        end
-
-        desc 'Generates the gemspec'
-        task :generate do
-          if File.exist?(bundler.gemspec_helper.path)
-            $stdout.puts 'You already have a gemspec. If you want to overwrite it, run `rake regenerate_gemspec`'
+          if bueller.gemspec_helper.valid?
+            puts "Gemspec is valid"
+            true
           else
-            bueller.write_gemspec
+            puts "Gemspec is not valid"
+            false
           end
-        end
-
-        task :regenerate_gemspec do
-          bueller.write_gemspec
         end
       end
 
