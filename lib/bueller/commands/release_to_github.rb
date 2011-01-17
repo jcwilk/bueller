@@ -24,12 +24,19 @@ class Bueller
       def repo; bueller.repo; end
 
       def run
-        raise "Hey buddy, try committing them files first" unless clean_staging_area?
+        run = true
+        unless clean_staging_area?
+          puts "There are some modified files that haven't been committed. Proceed anyway?"
+          run = $stdin.gets =~ /(y|yes)/i ? true : false
+        end
+        if run
+          repo.checkout('master')
 
-        repo.checkout('master')
-
-        output.puts "Pushing master to origin"
-        repo.push
+          output.puts "Pushing master to origin"
+          repo.push
+        else
+          raise "Release cancelled"
+        end
       end
 
       def clean_staging_area?

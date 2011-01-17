@@ -20,13 +20,16 @@ describe Bueller::Commands::ReleaseToGithub do
       command.stub!(:release_tagged?).and_return true
     end
 
-    it 'should raise an error if the staging area is unclean' do
+    it 'should push if the staging area is unclean and the use elects to proceed' do
       command.stub!(:clean_staging_area?).and_return false
-      expect { command.run }.should raise_error(RuntimeError, /try committing/i)
-    end
-    it 'should check out master' do
-      command.repo.should_receive(:checkout).with 'master'
+      $stdin.stub!(:gets).and_return 'y'
+      command.repo.should_receive :push
       command.run
+    end
+    it 'should raise an error if the staging area is unclean and the use elects not to proceed' do
+      command.stub!(:clean_staging_area?).and_return false
+      $stdin.stub!(:gets).and_return 'n'
+      expect { command.run }.should raise_error(RuntimeError, /cancel/i)
     end
     it 'should push' do
       command.repo.should_receive :push
