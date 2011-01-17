@@ -5,8 +5,8 @@ Gem::Specification.new do |s|
   s.authors = ['Derek Kastner']
   s.email = 'dkastner@gmail.com'
   s.homepage = 'http://github.com/dkastner/bueller'
-  s.description = 'Tools for building gems with bundler and friends'
   s.summary = 'Tools for building gems with bundler and friends'
+  s.description = 'Bueller provides a command to create new gem project directories. Code to help you start testing is generated according to the testing framework you choose. Bueller also provides handy tools for versioning and releasing your gem to github and rubygems.'
   s.rdoc_options = ['--charset=UTF-8']
   s.extra_rdoc_files = [
     "ChangeLog.markdown",
