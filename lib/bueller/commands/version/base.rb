@@ -26,6 +26,7 @@ class Bueller
           update_version
 
           gemspec_helper.update_version version_helper.to_s
+          gemspec_helper.set_date
           gemspec_helper.write
 
           commit_version

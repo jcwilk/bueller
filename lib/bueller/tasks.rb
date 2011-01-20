@@ -78,21 +78,18 @@ class Bueller
           desc "Bump the gemspec by a major version."
           task :major => :version do
             bueller.bump_major_version
-            bueller.write_gemspec
             $stdout.puts "Updated version: #{bueller.version}"
           end
 
           desc "Bump the gemspec by a minor version."
           task :minor => :version do
             bueller.bump_minor_version
-            bueller.write_gemspec
             $stdout.puts "Updated version: #{bueller.version}"
           end
 
           desc "Bump the gemspec by a patch version."
           task :patch => :version do
             bueller.bump_patch_version
-            bueller.write_gemspec
             $stdout.puts "Updated version: #{bueller.version}"
           end
         end
