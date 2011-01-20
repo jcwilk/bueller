@@ -9,9 +9,6 @@ end
 
 require 'bueller'
 Bueller::Tasks.new
-Bueller::RubyforgeTasks.new do |t|
-  t.doc_task = :yardoc
-end
 
 require 'yard'
 YARD::Rake::YardocTask.new(:yardoc) do |t|
@@ -29,7 +26,7 @@ Cucumber::Rake::Task.new(:features) do |features|
   features.cucumber_opts = "features --format progress"
 end
 namespace :features do
-  Cucumber::Rake::Task.new(:pretty) do |features|
+  Cucumber::Rake::Task.new(:pretty_features) do |features|
     features.cucumber_opts = "features --format progress"
   end
 end
