@@ -110,7 +110,7 @@ class Bueller
 
       namespace :rubygems do
         desc "Release gem to Rubygems"
-        task :release => [:gemspec, :build] do
+        task :release => :build do
           bueller.release_gem_to_rubygems
         end
       end
