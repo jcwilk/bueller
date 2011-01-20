@@ -39,10 +39,11 @@ class Bueller
     end
 
     def path
+      return @path unless @path.nil?
       denormalized_path = Dir.glob(File.join(base_dir, '*.gemspec')).first
       raise NoGemspecFound, "No gemspec found in #{base_dir}" if denormalized_path.nil?
       absolute_path = File.expand_path(denormalized_path)
-      absolute_path.gsub(Dir.getwd + File::SEPARATOR, '') 
+      @path = absolute_path.gsub(Dir.getwd + File::SEPARATOR, '') 
     end
 
     def spec_source
