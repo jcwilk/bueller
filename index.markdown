@@ -42,7 +42,7 @@ You're right! The codebase originated from Jeweler, but I made a few changes:
 
 ## Why do you care about bundler integration?
 
-Bundler is great because it allows for easy collaboration. Let's say Alice creates a gem called `cheshire`. Betty wants to make some fixes to `alice`, so she runs:
+Bundler is great because it allows for easy collaboration. Let's say Alice creates a gem called `cheshire`. Betty wants to make some fixes to `cheshire`, so she runs:
 
     $ git clone git://github.com/alice/cheshire.git
     $ bundle && rake
