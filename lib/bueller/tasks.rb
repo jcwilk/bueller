@@ -102,19 +102,10 @@ class Bueller
       task :release do
       end
 
-      namespace :github do
-        desc "Release Gem to GitHub"
-        task :release do
-          bueller.release_gem_to_github
-        end
-      end
-
-      task :release => 'github:release'
-
       namespace :git do
-        desc "Tag a release in Git"
+        desc "Tag a release and push to origin"
         task :release do
-          bueller.release_to_git
+          bueller.git_tag_release
         end
       end
 

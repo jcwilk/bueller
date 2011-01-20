@@ -111,10 +111,6 @@ class Bueller
     Bueller::Commands::Version::Write.run_for self, major, minor, patch, build
   end
 
-  def release_gem_to_github
-    Bueller::Commands::ReleaseToGithub.run_for self
-  end
-
   def git_tag_release
     Bueller::Commands::GitTagRelease.run_for self
   end

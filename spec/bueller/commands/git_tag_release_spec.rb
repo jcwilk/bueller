@@ -17,12 +17,21 @@ describe Bueller::Commands::GitTagRelease do
     before :each do
       command.repo.stub! :checkout
       command.repo.stub! :push
+      command.repo.stub! :add_tag
+      command.stub!(:clean_staging_area?).and_return true
       command.stub!(:release_tagged?).and_return true
     end
 
-    it 'should raise an error if the staging area is unclean' do
+    it 'should not run if the staging area is unclean and user does not confirm' do
       command.stub!(:clean_staging_area?).and_return false
-      expect { command.run }.should raise_error(RuntimeError, /try committing/i)
+      $stdin.stub!(:gets).and_return 'no'
+      expect { command.run }.should raise_error
+    end
+    it 'should run if the staging area is unclean and user confirms' do
+      command.stub!(:clean_staging_area?).and_return false
+      $stdin.stub!(:gets).and_return 'yes'
+      command.repo.should_receive :checkout
+      command.run
     end
     it 'should check out master' do
       command.repo.should_receive(:checkout).with 'master'
@@ -32,17 +41,16 @@ describe Bueller::Commands::GitTagRelease do
       command.repo.should_receive :push
       command.run
     end
-
     it 'should not push tags if the release is already tagged' do
       command.repo.should_not_receive :add_tag
-      command.repo.should_receive(:push).once
+      command.repo.should_receive :push
 
       command.run
     end
     it 'should push tags if the release is not tagged' do
       command.stub!(:release_tagged?).and_return false
       command.repo.should_receive :add_tag
-      command.repo.should_receive(:push).twice
+      command.repo.should_receive :push
 
       command.run
     end

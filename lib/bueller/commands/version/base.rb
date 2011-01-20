@@ -19,16 +19,27 @@ class Bueller
 
         def version_helper; bueller.version_helper; end
         def gemspec_helper; bueller.gemspec_helper; end
+        def repo; bueller.repo; end
+        def commit; bueller.commit; end
 
         def run
           update_version
 
           gemspec_helper.update_version version_helper.to_s
           gemspec_helper.write
+
+          commit_version
         end
 
         def update_version
           raise "Subclasses should implement this"
+        end
+
+        def commit_version
+          if repo and commit
+            repo.add gemspec_helper.path
+            repo.commit "Version bump to #{version_helper.to_s}"
+          end
         end
       end
     end

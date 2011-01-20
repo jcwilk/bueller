@@ -24,17 +24,26 @@ class Bueller
       def repo; bueller.repo; end
 
       def run
-        raise "Hey buddy, try committing them files first" unless clean_staging_area?
+        run = true
+        unless clean_staging_area?
+          output.puts "There are some modified files that haven't been committed. Proceed anyway?"
+          run = $stdin.gets =~ /(y|yes)/i ? true : false
+        end
 
-        repo.checkout('master')
-        repo.push
-        
-        unless release_tagged?
-          output.puts "Tagging #{release_tag}"
-          repo.add_tag(release_tag)
+        if run
+          repo.checkout('master')
+          
+          if release_tagged?
+            repo.push
+          else
+            output.puts "Tagging #{release_tag}"
+            repo.add_tag release_tag
 
-          output.puts "Pushing #{release_tag} to origin"
-          repo.push('origin', release_tag)
+            output.puts "Pushing #{release_tag} to origin"
+            repo.push 'origin', release_tag
+          end
+        else
+          raise "Release cancelled"
         end
       end 
 
