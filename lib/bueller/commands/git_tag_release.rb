@@ -33,15 +33,12 @@ class Bueller
         if run
           repo.checkout('master')
           
-          if release_tagged?
-            repo.push
-          else
+          unless release_tagged?
             output.puts "Tagging #{release_tag}"
             repo.add_tag release_tag
-
-            output.puts "Pushing #{release_tag} to origin"
-            repo.push 'origin', release_tag
           end
+          output.puts "Pushing #{release_tag} to origin"
+          repo.push 'origin', release_tag
         else
           raise "Release cancelled"
         end
@@ -62,9 +59,9 @@ class Bueller
       def release_tagged?
         begin
           repo.tag(release_tag)
-          false
-        rescue 
           true
+        rescue 
+          false
         end
       end
     end
