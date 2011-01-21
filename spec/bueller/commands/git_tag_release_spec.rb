@@ -59,11 +59,11 @@ describe Bueller::Commands::GitTagRelease do
   describe "#release_tagged?" do
     it 'should be true if a tag exists' do
       command.repo.stub!(:tag).and_raise RuntimeError
-      command.release_tagged?.should be_true
+      command.release_tagged?.should be_false
     end
     it 'should be false if no tag exists' do
       command.repo.stub!(:tag)
-      command.release_tagged?.should be_false
+      command.release_tagged?.should be_true
     end
   end
 
