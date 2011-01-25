@@ -1,4 +1,4 @@
-# Bueller: Craft the absolute perfect RubyGem
+# Bueller: A Tool for Crafting Gems Along With Bundler
 
 Bueller provides two things:
 
