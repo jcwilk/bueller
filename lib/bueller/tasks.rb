@@ -32,7 +32,7 @@ class Bueller
   private
 
     def define
-      Bundler::GemHelper.install_tasks
+      gem_helper = Bundler::GemHelper.install_tasks
 
       task :gemspec_required do
         unless File.exist?(bueller.gemspec_helper.path)
@@ -87,23 +87,10 @@ class Bueller
         end
       end
 
-      desc "Release gem"
-      task :release do
-      end
-
-      namespace :git do
-        desc "Tag a release and push to origin"
-        task :release do
-          bueller.git_tag_release
-        end
-      end
-
-      task :release => 'git:release'
-
       namespace :rubygems do
         desc "Release gem to Rubygems"
         task :release => :build do
-          bueller.release_gem_to_rubygems
+          gem_helper.rubygem_push bueller.gemspec_helper.gem_path
         end
       end
 

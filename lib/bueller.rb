@@ -3,10 +3,7 @@ require 'git'
 
 # Bueller helps you craft the perfect Rubygem. Give him a gemspec, and he takes care of the rest.
 #
-# See Bueller::Tasks for examples of how to get started. Additionally, resources are available on the wiki:
-#
-# * http://wiki.github.com/technicalpickles/bueller/create-a-new-project
-# * http://wiki.github.com/technicalpickles/bueller/configure-an-existing-project
+# See Bueller::Tasks for examples of how to get started.
 class Bueller
   require 'bueller/errors'
   require 'rubygems/user_interaction'
@@ -99,14 +96,6 @@ class Bueller
   # Bumps the version, to the specific major/minor/patch version, writing out the appropriate version.rb, and then reloads it.
   def write_version(major, minor, patch, build)
     Bueller::Commands::Version::Write.run_for self, major, minor, patch, build
-  end
-
-  def git_tag_release
-    Bueller::Commands::GitTagRelease.run_for self
-  end
-
-  def release_gem_to_rubygems
-    Bueller::Commands::ReleaseToRubygems.run_for self
   end
 
   def git_base_dir(base_dir = nil)

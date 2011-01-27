@@ -1,8 +1,5 @@
 class Bueller
   module Commands
-    autoload :GitTagRelease, 'bueller/commands/git_tag_release'
-    autoload :ReleaseToGithub, 'bueller/commands/release_to_github'
-    autoload :ReleaseToRubygems, 'bueller/commands/release_to_rubygems'
     autoload :WriteGemspec, 'bueller/commands/write_gemspec'
 
     module Version

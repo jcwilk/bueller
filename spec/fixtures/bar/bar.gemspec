@@ -1,5 +1,5 @@
 Gem::Specification.new do |s|
-  s.name = %q{bueller}
+  s.name = %q{bar}
   s.version = "0.0.1"
   s.date = '2010-02-15'
   s.authors = ['Josh Nichols', 'Derek Kastner']

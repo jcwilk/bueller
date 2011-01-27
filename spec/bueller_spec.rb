@@ -59,12 +59,4 @@ describe Bueller do
       bueller.write_version(1, 5, 2, 'a1')
     end
   end
-
-  describe '#git_tag_release' do
-    it 'should build and tag the release' do
-      Bueller::Commands::GitTagRelease.should_receive(:run_for).with(bueller)
-
-      bueller.git_tag_release
-    end
-  end
 end
