@@ -93,8 +93,6 @@ class Bueller
           gem_helper.rubygem_push bueller.gemspec_helper.gem_path
         end
       end
-
-      task :release => 'rubygems:release'
     end
   end
 end
