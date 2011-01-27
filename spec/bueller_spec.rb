@@ -36,14 +36,6 @@ describe Bueller do
     end
   end
 
-  describe '#install_gem' do
-    it 'should build and run build gem command when installing gem' do
-      Bueller::Commands::InstallGem.should_receive(:run_for).with(bueller)
-
-      bueller.install_gem
-    end
-  end
-
   describe '#bump_major_version' do
     it 'should build and run bump major version command when bumping major version' do
       Bueller::Commands::Version::BumpMajor.should_receive(:run_for).with(bueller)

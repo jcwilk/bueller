@@ -75,11 +75,6 @@ class Bueller
     Bueller::Commands::WriteGemspec.run_for self
   end
 
-  # Install a previously built gem
-  def install_gem
-    Bueller::Commands::InstallGem.run_for self
-  end
-
   # Bumps the patch version.
   #
   # 1.5.1 -> 1.5.2

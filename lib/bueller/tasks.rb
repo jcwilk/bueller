@@ -40,11 +40,6 @@ class Bueller
         end
       end
 
-      desc "Install gem"
-      task :install => [:build] do
-        bueller.install_gem
-      end
-
       namespace :gemspec do
         desc 'Validates the gemspec'
         task :validate => :gemspec_required do

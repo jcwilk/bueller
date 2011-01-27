@@ -1,6 +1,5 @@
 class Bueller
   module Commands
-    autoload :InstallGem, 'bueller/commands/install_gem'
     autoload :GitTagRelease, 'bueller/commands/git_tag_release'
     autoload :ReleaseToGithub, 'bueller/commands/release_to_github'
     autoload :ReleaseToRubygems, 'bueller/commands/release_to_rubygems'
