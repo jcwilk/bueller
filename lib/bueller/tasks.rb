@@ -32,15 +32,12 @@ class Bueller
   private
 
     def define
+      Bundler::GemHelper.install_tasks
+
       task :gemspec_required do
         unless File.exist?(bueller.gemspec_helper.path)
           abort "Expected #{bueller.gemspec_helper.path} to exist. See 'rake gemspec:write' to create it"
         end
-      end
-
-      desc "Build gem"
-      task :build do
-        bueller.build_gem
       end
 
       desc "Install gem"

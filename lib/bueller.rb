@@ -75,11 +75,6 @@ class Bueller
     Bueller::Commands::WriteGemspec.run_for self
   end
 
-  # Build a gem using the project's latest Gem::Specification
-  def build_gem
-    Bueller::Commands::BuildGem.run_for self
-  end
-
   # Install a previously built gem
   def install_gem
     Bueller::Commands::InstallGem.run_for self

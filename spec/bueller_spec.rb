@@ -36,14 +36,6 @@ describe Bueller do
     end
   end
 
-  describe '#build_gem' do
-    it 'should build and run build gem command when building gem' do
-      Bueller::Commands::BuildGem.should_receive(:run_for).with(bueller)
-
-      bueller.build_gem
-    end
-  end
-
   describe '#install_gem' do
     it 'should build and run build gem command when installing gem' do
       Bueller::Commands::InstallGem.should_receive(:run_for).with(bueller)
