@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name = 'bueller'
-  s.version = "0.0.3"
-  s.date = "2011-01-21"
+  s.version = "0.0.4"
+  s.date = "2011-01-27"
   s.authors = ['Derek Kastner']
   s.email = 'dkastner@gmail.com'
   s.homepage = 'http://github.com/dkastner/bueller'
