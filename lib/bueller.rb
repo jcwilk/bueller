@@ -64,7 +64,7 @@ class Bueller
 
   # Human readable version, which is used in the gemspec.
   def version
-    gemspec_helper.version || @version_helper.to_s
+    version_helper.to_s
   end
 
   # Writes out the gemspec

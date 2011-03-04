@@ -181,19 +181,20 @@ class Bueller
         raise FileInTheWay, "The directory #{target_dir} already exists, aborting. Maybe move it out of the way before continuing?"
       end
 
+      require 'bundler'
+      require 'bundler/cli'
 
-      output_template_in_target '.gitignore'
+      Dir.chdir File.dirname(target_dir) do
+        cli = Bundler::CLI.new
+        cli.gem project_name
+      end
+
+      append_template_in_target '.gitignore'
       output_template_in_target 'Rakefile'
-      output_template_in_target 'Gemfile'
       output_template_in_target 'LICENSE'
       output_template_in_target 'README.rdoc'
       output_template_in_target '.document'
       output_template_in_target 'gemspec', "#{project_name}.gemspec"
-
-      mkdir_in_target           lib_dir
-      File.open File.join(target_dir, lib_dir, lib_filename), 'w' do |f|
-        f.puts "module #{constant_name}\n\nend"
-      end
 
       mkdir_in_target           test_dir
       output_template_in_target File.join(testing_framework.to_s, 'helper.rb'),
@@ -219,6 +220,15 @@ class Bueller
 
       # squish extraneous whitespace from some of the conditionals
       template.result(binding).gsub(/\n\n\n+/, "\n\n")
+    end
+
+    def append_template_in_target(source, destination = source)
+      final_destination = File.join(target_dir, destination)
+      template_result   = render_template(source)
+
+      File.open(final_destination, 'a') {|file| file.write(template_result)}
+
+      $stdout.puts "\tappend\t#{destination}"
     end
 
     def output_template_in_target(source, destination = source)

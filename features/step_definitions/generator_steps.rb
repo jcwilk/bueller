@@ -74,7 +74,6 @@ When /^I generate a (.*)project named '((?:\w|-|_)+)' that is '([^']*)' and desc
     @testing_framework = testing_framework.to_sym
   end
 
-
   arguments = ['--directory',
                "#{@working_dir}/#{@name}",
                '--summary', @summary,

@@ -15,14 +15,6 @@ class Bueller
 
     def valid?
       begin
-        reload_spec
-        spec
-      rescue => e
-        errors << "could not eval gemspec: #{e}"
-        return false
-      end
-
-      begin
         spec.validate
       rescue => e
         errors << "gemspec is invalid: #{e}"
@@ -55,17 +47,11 @@ class Bueller
     end
 
     def spec
-      @spec ||= eval(spec_source)
+      @spec ||= Gem::Specification.load path
     end
 
     def gem_path
       File.join(base_dir, 'pkg', spec.file_name)
-    end
-
-    def update_version(version)
-      raise VersionMissing unless has_version?
-      spec_source.sub! /\.version\s*=\s*.*/, %Q{.version = "#{version}"}
-      reload_spec
     end
 
     def set_date
@@ -79,6 +65,10 @@ class Bueller
 
     def version
       spec.version
+    end
+
+    def project_name
+      spec.name
     end
   end
 end

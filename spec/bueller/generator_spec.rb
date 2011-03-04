@@ -271,4 +271,6 @@ describe Bueller::Generator do
     generator.test_filename.should == 'the-perfect-gem_test.rb'
     generator.test_helper_filename.should == 'test_helper.rb'
   end
+
+  describe '#output'
 end

@@ -40,19 +40,6 @@ class Bueller
         end
       end
 
-      namespace :gemspec do
-        desc 'Validates the gemspec'
-        task :validate => :gemspec_required do
-          if bueller.gemspec_helper.valid?
-            puts "Gemspec is valid"
-            true
-          else
-            puts "Gemspec is not valid"
-            false
-          end
-        end
-      end
-
       desc "Displays the current version"
       task :version do
         $stdout.puts "Current version: #{bueller.version}"
@@ -84,13 +71,6 @@ class Bueller
             bueller.bump_patch_version
             $stdout.puts "Updated version: #{bueller.version}"
           end
-        end
-      end
-
-      namespace :rubygems do
-        desc "Release gem to Rubygems"
-        task :release => :build do
-          gem_helper.rubygem_push bueller.gemspec_helper.gem_path
         end
       end
     end

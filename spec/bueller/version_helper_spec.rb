@@ -2,13 +2,18 @@ require 'spec_helper'
 
 describe Bueller::VersionHelper do
 
-  let(:gemspec_helper) { mock Bueller::GemSpecHelper, :has_version? => true }
+  let(:gemspec_helper) { mock Bueller::GemSpecHelper, :has_version? => true, :base_dir => '/path/to/gem', :project_name => 'mygem' }
   let(:helper) { Bueller::VersionHelper.new gemspec_helper }
 
   describe "full version" do
     before do
-      gemspec_helper.stub!(:version).and_return '3.5.4'
+      File.stub!(:read).and_return <<-RUBY
+      module MyGem
+        VERSION = '3.5.4'
+      end
+      RUBY
     end
+
 
     it 'should have version 3.5.4' do
       helper.should have_version(3, 5, 4)
@@ -32,7 +37,11 @@ describe Bueller::VersionHelper do
 
   describe "prerelease version" do
     before do
-      gemspec_helper.stub!(:version).and_return '3.5.4.a1'
+      File.stub!(:read).and_return <<-RUBY
+      module MyGem
+        VERSION = '3.5.4.a1'
+      end
+      RUBY
     end
 
     it 'should be version 3.5.4.a1' do
