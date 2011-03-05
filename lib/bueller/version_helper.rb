@@ -13,12 +13,12 @@ class Bueller
       parse_version
     end
 
-    def version_path
+    def path
       File.join(gemspec_helper.base_dir, 'lib', gemspec_helper.project_name, 'version.rb')
     end
 
     def version_source
-      @version_source ||= File.read version_path
+      @version_source ||= File.read path
     end
 
     def parse_version
@@ -34,7 +34,7 @@ class Bueller
 
     def write_version
       version_source.sub! /VERSION\s*=.*/, %Q{VERSION = "#{to_s}"}
-      File.open(version_path, 'w') { |f| f.puts version_source }
+      File.open(path, 'w') { |f| f.puts version_source }
       parse_version
     end
 

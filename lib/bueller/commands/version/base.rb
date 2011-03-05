@@ -39,6 +39,7 @@ class Bueller
         def commit_version
           if repo and commit
             repo.add gemspec_helper.path
+            repo.add version_helper.path
             repo.commit "Version bump to #{version_helper.to_s}"
           end
         end
