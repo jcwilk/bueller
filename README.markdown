@@ -2,13 +2,12 @@
 
 Bueller provides two things:
 
- * A generator for creating/kickstarting a new project
- * Rake tasks for managing gems and versioning of a <a href="http://github.com">GitHub</a> project
+ * A generator for creating a new gem
+ * Rake tasks for managing and versioning gems
 
 ## Quick Links
 
  * [Web](http://dkastner.github.com/bueller)
- * [Wiki](http://wiki.github.com/dkastner/bueller)
  * [Bugs](http://github.com/dkastner/bueller/issues)
 
 ## Installing
@@ -16,18 +15,22 @@ Bueller provides two things:
 # Install the gem:
     gem install bueller
 
-## Using in an existing project
+## Integrate into an existing project
 
-Since bueller uses your existing gemspec, simply add the bueller tasks to your Rakefile:
+Since Bueller uses your existing gemspec, simply add the Bueller tasks to your Rakefile:
 
-    begin
-      require 'bueller'
-      Bueller::Tasks.new
-    rescue LoadError
-      puts "Bueller not available. Install it with: gem install bueller"
+    require 'bueller'
+    Bueller::Tasks.new
+
+Bueller follow's [Bundler's](http://gembundler.com) convention of storing the version number in a constant. In `lib/<gem_name>/version.rb`, you need the following code:
+
+    module MyGem
+      VERSION = '1.2.3'
     end
 
-## Using to start a new project
+With that, you're all set to start buelling!
+
+## Starting a new project
 
 Bueller provides a generator. It requires you to [setup your name and email for git](http://help.github.com/git-email-settings/) and [your username and token for GitHub](http://github.com/guides/local-github-config).
 
@@ -62,7 +65,7 @@ When starting from scratch, bueller will create a skeleton gemspec for you.
 
 ## Gem
 
-Bueller gives you tasks for building and installing your gem.
+Bueller gives you tasks (provided by Bundler) for building and installing your gem.
 
     rake install
 
@@ -82,7 +85,7 @@ Note, this does not use `sudo` to install it, so if your ruby setup needs that, 
 
 Bueller tracks the version of your project. It assumes you will be using a version in the format `x.y.z`. `x` is the 'major' version, `y` is the 'minor' version, and `z` is the patch version.
 
-Initially, your project starts out at 0.0.0. Bueller provides Rake tasks for bumping the version:
+Initially, your project starts out at 0.0.1. Bueller provides Rake tasks for bumping the version:
 
     rake version:bump:major
     rake version:bump:minor
@@ -100,29 +103,18 @@ Bueller does not provide a `version:bump:build` because the build version can re
 
 ## Releasing
 
-Bueller handles releasing your gem into the wild:
+Bueller uses Bundler's rake tasks for your gem into the wild:
 
     rake release
 
 It does the following for you:
 
- * git pushes to origin/master branch
- * git tags the version and pushes to the origin remote
-
-As is though, it doesn't actually get your gem anywhere. To do that, you'll need to use rubyforge or gemcutter.
-
-### Releasing to Rubygems
-
-Bueller can also handle releasing to [Rubygems](http://rubygems.org). You must [create an account](http://rubygems.org/sign_up) on Rubygems before doing any Rubygems releases with Bueller.
-
-After you have configured this, `rake release` will now also release to Gemcutter.
-
-If you need to release it without the rest of the release task, you can run:
-
-    $ rake rubygems:release
+ * git tags the version and pushes to origin/master
+ * builds the gem
+ * pushes the gem to RubyGems
 
 ## Development and Release Workflow
 
  * Hack, commit, hack, commit, etc, etc
  * `rake version:bump:patch release` to do the actual version bump and release
- * Have a delicious beverage (I suggest port)
+ * Have a delicious beverage (I suggest a local craft brew)
