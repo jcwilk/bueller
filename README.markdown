@@ -103,7 +103,7 @@ Bueller does not provide a `version:bump:build` because the build version can re
 
 ## Releasing
 
-Bueller uses Bundler's rake tasks for your gem into the wild:
+Bueller uses Bundler's rake tasks for getting your gem into the wild:
 
     rake release
 
